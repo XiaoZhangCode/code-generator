@@ -46,6 +46,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://freemarker.apache.org/index.html -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.32</version>
+        </dependency>
 
     </dependencies>
 
