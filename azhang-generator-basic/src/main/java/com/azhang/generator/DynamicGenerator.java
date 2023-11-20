@@ -5,9 +5,11 @@ import com.azhang.model.MainTemplateConfig;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Locale;
 
 /**
  * @author zhang
@@ -43,10 +45,11 @@ public class DynamicGenerator {
         configuration.setDirectoryForTemplateLoading(templateDir);
         // 3. 设置字符编码
         configuration.setDefaultEncoding("UTF-8");
+        configuration.setEncoding(Locale.getDefault(),"UTF-8");
         // 4. 创建模板对象，并设置模板文件
-        Template template = configuration.getTemplate(new File(inputPath).getName());
+        Template template = configuration.getTemplate(new File(inputPath).getName(), "UTF-8");
         // 5. 输出文件
-        FileWriter out = new FileWriter(outputPath);
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(outputPath)), StandardCharsets.UTF_8));
         template.process(model, out);
         // 6. 关闭流
         out.close();
