@@ -38,7 +38,6 @@ public class Login implements Callable<Integer> {
                 field.set(this, string);
             }
         }
-
         System.out.println(this);
         return null;
     }

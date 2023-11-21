@@ -7,7 +7,9 @@ import lombok.SneakyThrows;
 import picocli.CommandLine;
 
 
+
 import static com.azhang.generator.MainGenerator.doGenerate;
+import static com.azhang.util.ReflexUtil.setFieldsWithInteractiveAnnotation;
 
 /**
  * @author zhang
@@ -16,46 +18,47 @@ import static com.azhang.generator.MainGenerator.doGenerate;
  */
 @Data
 @CommandLine.Command(name = "generate", mixinStandardHelpOptions = true, description = "生成命令")
-public class GenerateCommand implements Runnable{
+public class GenerateCommand implements Runnable {
 
     /**
      * 是否生成循环
      */
     @CommandLine.Option(
-            names = {"-l","--loop"},
+            names = {"-l", "--loop"},
             arity = "0..1",
             description = "是否生成循环",
             echo = true,
             interactive = true)
-    private boolean loop = false;
+    private Boolean loop;
 
     /**
      * 作者
      */
     @CommandLine.Option(
-            names = {"-a","--author"},
+            names = {"-a", "--author"},
             arity = "0..1",
             description = "作者",
             echo = true,
             interactive = true)
-    private String author = "zhang";
+    private String author;
 
     /**
      * 输出信息
      */
     @CommandLine.Option(
-            names = {"-o","--output"},
+            names = {"-o", "--output"},
             arity = "0..1",
             description = "输出信息",
             echo = true,
             interactive = true)
-    private String outputText = "sum = ";
-
+    private String outputText;
 
 
     @SneakyThrows
     @Override
-    public void run(){
+    public void run() {
+        setFieldsWithInteractiveAnnotation(this, this.getClass());
+
         MainTemplateConfig config = new MainTemplateConfig();
         BeanUtil.copyProperties(this, config);
         doGenerate(config);
