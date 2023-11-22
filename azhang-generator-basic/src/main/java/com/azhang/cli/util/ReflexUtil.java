@@ -1,9 +1,9 @@
-package com.azhang.util;
+package com.azhang.cli.util;
 
 import picocli.CommandLine;
 
-import static com.azhang.util.ConsoleUtil.getConsoleValue;
-import static com.azhang.util.ConvertUtil.convertValueToFieldType;
+import static com.azhang.cli.util.ConsoleUtil.getConsoleValue;
+import static com.azhang.cli.util.ConvertUtil.convertValueToFieldType;
 
 /**
  * @author zhang

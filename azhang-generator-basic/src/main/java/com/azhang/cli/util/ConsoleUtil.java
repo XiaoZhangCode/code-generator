@@ -1,4 +1,4 @@
-package com.azhang.util;
+package com.azhang.cli.util;
 
 import java.io.Console;
 import java.util.Scanner;

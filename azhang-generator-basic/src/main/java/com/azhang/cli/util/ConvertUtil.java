@@ -1,4 +1,4 @@
-package com.azhang.util;
+package com.azhang.cli.util;
 
 /**
  * @author zhang

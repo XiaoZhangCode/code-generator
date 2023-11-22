@@ -1,4 +1,4 @@
-package com.azhang.pattern;
+package com.azhang.cli.pattern;
 
 import lombok.Data;
 

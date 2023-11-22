@@ -1,12 +1,10 @@
-package com.azhang;
+package com.azhang.cli;
 
-import com.azhang.command.ConfigCommand;
-import com.azhang.command.GenerateCommand;
-import com.azhang.command.ListCommand;
+import com.azhang.cli.command.ConfigCommand;
+import com.azhang.cli.command.GenerateCommand;
+import com.azhang.cli.command.ListCommand;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-
-import static com.azhang.util.ConsoleUtil.getConsoleValue;
 
 /**
  * @author zhang

@@ -1,4 +1,4 @@
-package com.azhang.command;
+package com.azhang.cli.command;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.azhang.model.MainTemplateConfig;
@@ -9,7 +9,7 @@ import picocli.CommandLine;
 
 
 import static com.azhang.generator.MainGenerator.doGenerate;
-import static com.azhang.util.ReflexUtil.setFieldsWithInteractiveAnnotation;
+import static com.azhang.cli.util.ReflexUtil.setFieldsWithInteractiveAnnotation;
 
 /**
  * @author zhang

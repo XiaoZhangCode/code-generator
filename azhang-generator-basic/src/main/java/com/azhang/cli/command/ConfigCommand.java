@@ -1,4 +1,4 @@
-package com.azhang.command;
+package com.azhang.cli.command;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.azhang.model.MainTemplateConfig;

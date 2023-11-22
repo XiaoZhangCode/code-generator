@@ -1,12 +1,7 @@
 package com.azhang;
 
 
-import java.io.Console;
-import java.io.File;
-import java.util.Scanner;
-
-import static com.azhang.generator.StaticGenerator.copyFilesByHuTool;
-import static com.azhang.generator.StaticGenerator.copyFilesByRecursive;
+import com.azhang.cli.CommandExecutor;
 
 /**
  * @author zhang

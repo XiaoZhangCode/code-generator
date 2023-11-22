@@ -1,4 +1,4 @@
-package com.azhang.example;
+package com.azhang.cli.example;
 
 import lombok.Data;
 import picocli.CommandLine;
