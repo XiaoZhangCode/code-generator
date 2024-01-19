@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
 /**
  * @author zhang
  * @date 2023/12/15 17:45
@@ -24,6 +25,12 @@ public class Meta {
     private String createTime;
     private FileConfigDTO fileConfig;
     private ModelConfigDTO modelConfig;
+    /**
+     * 用户强制输入开关
+     */
+    private boolean forcedInteractiveSwitch;
+
+
 
     @NoArgsConstructor
     @Data
@@ -46,18 +53,32 @@ public class Meta {
     @NoArgsConstructor
     @Data
     public static class ModelConfigDTO {
-        private List<ModelInfoDTO> models;
+        private ModelInfoDTO models;
 
         @NoArgsConstructor
         @Data
         public static class ModelInfoDTO {
-            private String fieldName;
-            private String type;
-            private String description;
-            private Object defaultValue;
-            private String abbr;
+            private DataModelDTO dataModel;
+
+            @NoArgsConstructor
+            @Data
+            public static class DataModelDTO {
+                private String description;
+                private List<FiledInfoDTO> filedInfo;
+
+                @NoArgsConstructor
+                @Data
+                public static class FiledInfoDTO {
+                    private String fieldName;
+                    private String type;
+                    private String description;
+                    private Object defaultValue;
+                    private String abbr;
+                }
+            }
         }
     }
+
 
     public static void main(String[] args) {
         String metaJson = ResourceUtil.readUtf8Str("meta.json");

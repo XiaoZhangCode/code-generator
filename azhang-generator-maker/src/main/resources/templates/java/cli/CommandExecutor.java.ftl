@@ -1,17 +1,17 @@
-package com.azhang.maker.cli;
+package ${basePackage}.cli;
 
-import com.azhang.maker.cli.command.ConfigCommand;
-import com.azhang.maker.cli.command.GenerateCommand;
-import com.azhang.maker.cli.command.ListCommand;
+import ${basePackage}.cli.command.ConfigCommand;
+import ${basePackage}.cli.command.GenerateCommand;
+import ${basePackage}.cli.command.ListCommand;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
 /**
- * @author zhang
- * @date 2023/11/20 13:57
+ * @author ${author}
+ * @date ${.now}
  * @description 绑定所有子命令
  */
-@Command(name = "zhang", mixinStandardHelpOptions = true, version = "1.0")
+@Command(name = "${name}", mixinStandardHelpOptions = true, version = "1.0")
 public class CommandExecutor implements Runnable {
 
     private final CommandLine commandLine;
@@ -38,11 +38,5 @@ public class CommandExecutor implements Runnable {
     public void doExecute(String[] args) {
         commandLine.execute(args);
     }
-
-
-
-
-
-
 
 }

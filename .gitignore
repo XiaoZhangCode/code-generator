@@ -184,3 +184,5 @@ mm.log
 apex-scripts/*
 !apex-scripts/*.cls
 
+# 生成文件
+Generated

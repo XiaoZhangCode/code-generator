@@ -1,13 +1,13 @@
-package com.azhang.maker.cli.util;
+package ${basePackage}.cli.util;
 
 import picocli.CommandLine;
 
-import static com.azhang.maker.cli.util.ConsoleUtil.getConsoleValue;
-import static com.azhang.maker.cli.util.ConvertUtil.convertValueToFieldType;
+import static ${basePackage}.cli.util.ConsoleUtil.getConsoleValue;
+import static ${basePackage}.cli.util.ConvertUtil.convertValueToFieldType;
 
 /**
- * @author zhang
- * @date 2023/11/21 9:30
+ * @author ${author}
+ * @date ${.now}
  */
 public class ReflexUtil {
 

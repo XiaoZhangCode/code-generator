@@ -4,9 +4,10 @@
   "basePackage": "com.azhang",
   "version": "1.0",
   "author": "azhang",
-  "createTime": "2023-12-13",
+  "createTime": "2024-1-18",
+  "forcedInteractiveSwitch": true,
   "fileConfig": {
-    "inputRootPath": "F:\\zhangPro\\azhang-generator\\azhang-generator-demo-projects\\acm-template-pro",
+    "inputRootPath": "D:/Program Files/code/me/zhangPro/azhang-generator/azhang-generator-demo-projects/acm-template-pro",
     "outputRootPath": "generated",
     "type": "dir",
     "files": [
@@ -31,28 +32,33 @@
     ]
   },
   "modelConfig": {
-    "models": [
-      {
-        "fieldName": "loop",
-        "type": "boolean",
-        "description": "是否生成循环",
-        "defaultValue": false,
-        "abbr": "l"
-      },
-      {
-        "fieldName": "author",
-        "type": "String",
-        "description": "作者注释",
-        "defaultValue": "azhang",
-        "abbr": "a"
-      },
-      {
-        "fieldName": "outputText",
-        "type": "String",
-        "description": "输出信息",
-        "defaultValue": "sum = ",
-        "abbr": "o"
+    "models": {
+      "dataModel":{
+        "description": "动态模板配置",
+        "filedInfo": [
+          {
+            "fieldName": "loop",
+            "type": "Boolean",
+            "description": "是否生成循环",
+            "defaultValue": false,
+            "abbr": "l"
+          },
+          {
+            "fieldName": "author",
+            "type": "String",
+            "description": "作者注释",
+            "defaultValue": "azhang",
+            "abbr": "a"
+          },
+          {
+            "fieldName": "outputText",
+            "type": "String",
+            "description": "输出信息",
+            "defaultValue": "sum = ",
+            "abbr": "o"
+          }
+        ]
       }
-    ]
+    }
   }
 }

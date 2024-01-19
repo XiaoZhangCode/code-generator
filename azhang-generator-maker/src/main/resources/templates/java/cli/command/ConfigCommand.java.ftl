@@ -1,14 +1,14 @@
-package com.azhang.maker.cli.command;
+package ${basePackage}.cli.command;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.azhang.maker.model.DataModel;
+import ${basePackage}.model.DataModel;
 import picocli.CommandLine;
 
 import java.lang.reflect.Field;
 
 /**
- * @author zhang
- * @date 2023/11/20 13:55
+ * @author ${author}
+ * @date ${.now}
  * @description 配置命令
  */
 @CommandLine.Command(name = "config", description = "配置命令",mixinStandardHelpOptions = true)

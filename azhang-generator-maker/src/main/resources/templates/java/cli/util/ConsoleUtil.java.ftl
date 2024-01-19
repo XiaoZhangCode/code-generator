@@ -1,11 +1,11 @@
-package com.azhang.maker.cli.util;
+package ${basePackage}.cli.util;
 
 import java.io.Console;
 import java.util.Scanner;
 
 /**
- * @author zhang
- * @date 2023/11/20 17:26
+ * @author ${author}
+ * @date ${.now}
  */
 public class ConsoleUtil {
 

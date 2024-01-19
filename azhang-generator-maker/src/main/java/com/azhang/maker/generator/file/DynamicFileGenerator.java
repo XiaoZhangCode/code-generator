@@ -2,7 +2,6 @@ package com.azhang.maker.generator.file;
 
 import cn.hutool.core.io.FileUtil;
 import freemarker.template.Configuration;
-import com.azhang.maker.model.DataModel;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -36,12 +35,10 @@ public class DynamicFileGenerator {
         configuration.setEncoding(Locale.getDefault(), "UTF-8");
         // 4. 创建模板对象，并设置模板文件
         Template template = configuration.getTemplate(new File(inputPath).getName(), "UTF-8");
-
         // 文件不存在则创建文件和父目录
         if (!FileUtil.exist(outputPath)) {
             FileUtil.touch(outputPath);
         }
-
         // 5. 输出文件
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(outputPath)), StandardCharsets.UTF_8));
         template.process(model, out);

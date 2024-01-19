@@ -1,8 +1,7 @@
-package com.azhang.generator;
+package ${basePackage}.generator;
 
 import cn.hutool.core.io.FileUtil;
 import freemarker.template.Configuration;
-import com.azhang.model.MainTemplateConfig;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
@@ -13,23 +12,11 @@ import java.nio.file.Paths;
 import java.util.Locale;
 
 /**
- * @author zhang
- * @date 2023/11/10 9:34
+ * @author ${author}
+ * @date ${.now}
  * 动态文件生成器
  */
 public class DynamicGenerator {
-    public static void main(String[] args) throws IOException, TemplateException {
-        String inputPath = "src/main/resources/templates/MainTemplate.java.ftl";
-        String outputPath = "src/main/java/com/azhang/MainTemplate.java";
-        // 创建数据模型
-        MainTemplateConfig mainTemplateConfig = new MainTemplateConfig();
-        mainTemplateConfig.setLoop(false);
-        mainTemplateConfig.setAuthor("zhang");
-        mainTemplateConfig.setOutputText("输出结果为:");
-        doGenerate(inputPath, outputPath, mainTemplateConfig);
-
-    }
-
 
     /**
      * 动态生成文件
@@ -46,10 +33,11 @@ public class DynamicGenerator {
         configuration.setDirectoryForTemplateLoading(templateDir);
         // 3. 设置字符编码
         configuration.setDefaultEncoding("UTF-8");
-        configuration.setEncoding(Locale.getDefault(),"UTF-8");
+        configuration.setEncoding(Locale.getDefault(), "UTF-8");
         // 4. 创建模板对象，并设置模板文件
         Template template = configuration.getTemplate(new File(inputPath).getName(), "UTF-8");
-        if(!FileUtil.exist(outputPath)){
+        // 文件不存在则创建文件和父目录
+        if (!FileUtil.exist(outputPath)) {
             FileUtil.touch(outputPath);
         }
         // 5. 输出文件

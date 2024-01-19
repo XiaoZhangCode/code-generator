@@ -1,8 +1,8 @@
-package com.azhang.maker.cli.util;
+package ${basePackage}.cli.util;
 
 /**
- * @author zhang
- * @date 2023/11/21 9:22
+ * @author ${author}
+ * @date ${.now}
  */
 public class ConvertUtil {
     public static Object convertValueToFieldType(String value, Class<?> fieldType) {
