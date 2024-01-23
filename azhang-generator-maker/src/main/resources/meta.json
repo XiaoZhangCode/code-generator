@@ -6,8 +6,10 @@
   "author": "azhang",
   "createTime": "2024-1-18",
   "forcedInteractiveSwitch": true,
+  "versionControl": true,
   "fileConfig": {
-    "inputRootPath": "D:/Program Files/code/me/zhangPro/azhang-generator/azhang-generator-demo-projects/acm-template-pro",
+    "inputRootPath": ".source/acm-template-pro",
+    "sourceRootPath": "D:/Program Files/code/me/zhangPro/azhang-generator/azhang-generator-demo-projects/acm-template-pro",
     "outputRootPath": "generated",
     "type": "dir",
     "files": [

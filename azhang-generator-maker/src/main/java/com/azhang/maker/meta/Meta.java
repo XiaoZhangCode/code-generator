@@ -28,7 +28,13 @@ public class Meta {
     /**
      * 用户强制输入开关
      */
-    private boolean forcedInteractiveSwitch;
+    private Boolean forcedInteractiveSwitch;
+
+    /**
+     * 版本控制
+     */
+    private Boolean versionControl;
+
 
 
 
@@ -37,6 +43,7 @@ public class Meta {
     public static class FileConfigDTO {
         private String inputRootPath;
         private String outputRootPath;
+        private String sourceRootPath;
         private String type;
         private List<FileInfoDTO> files;
 

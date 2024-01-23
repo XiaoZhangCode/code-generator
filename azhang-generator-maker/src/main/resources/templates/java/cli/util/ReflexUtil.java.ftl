@@ -1,6 +1,7 @@
 package ${basePackage}.cli.util;
 
 import picocli.CommandLine;
+import java.util.Arrays;
 
 import static ${basePackage}.cli.util.ConsoleUtil.getConsoleValue;
 import static ${basePackage}.cli.util.ConvertUtil.convertValueToFieldType;
@@ -16,7 +17,7 @@ public class ReflexUtil {
             field.setAccessible(true);
             CommandLine.Option option = field.getAnnotation(CommandLine.Option.class);
             if (option != null && option.interactive() && field.get(instance) == null) {
-                String value = getConsoleValue("enter for value for --" + field.getName() + ": ");
+                String value = getConsoleValue("enter for value for --" + field.getName() + "("+ Arrays.toString(option.description()) +")" + ": ");
                 Object fieldValue = convertValueToFieldType(value, field.getType());
                 field.set(instance, fieldValue);
             }
