@@ -8,6 +8,22 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import picocli.CommandLine;
 
+<#macro generateOption  indent modelInfo>
+${indent}@CommandLine.Option(
+${indent}names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}" ,</#if><#if modelInfo.fieldName??>"--${modelInfo.fieldName}"</#if>},
+${indent}arity = "0..1",
+${indent}description = "${modelInfo.description}",
+${indent}echo = true,
+${indent}interactive = true)
+${indent}private ${modelInfo.type} ${modelInfo.fieldName}<#if !forcedInteractiveSwitch><#if modelInfo.defaultValue??>= ${modelInfo.defaultValue?c}</#if></#if>;
+</#macro>
+
+<#macro generateCommand indent modelInfo>
+${indent}System.out.println("请输入${modelInfo.groupName}配置:");
+${indent}CommandLine commandLine = new CommandLine(${modelInfo.type}Command.class);
+${indent}commandLine.execute(${modelInfo.allArgsStr});
+</#macro>
+
 /**
  * @author ${author}
  * @date ${.now}
@@ -18,18 +34,39 @@ import picocli.CommandLine;
 public class GenerateCommand implements Runnable {
 
 <#list modelConfig.models.dataModel.filedInfo as modelInfo>
-    <#if modelInfo.description??>
+
+    <#if modelInfo.groupKey??>
     /**
-    * ${modelInfo.description}
+    * ${modelInfo.groupName}
     */
+    static DataModel.${modelInfo.type} ${modelInfo.groupKey}  = new DataModel.${modelInfo.type}();
+
+    <#--  根据命令生成分组类  -->
+    @CommandLine.Command(name = "${modelInfo.groupKey}")
+    @Data
+    public static class ${modelInfo.type}Command implements Runnable {
+        <#list modelInfo.models as subModelInfo>
+        <@generateOption indent="            " modelInfo=subModelInfo />
+        </#list >
+
+        @Override
+        public void run(){
+            <#list modelInfo.models as subModelInfo>
+            ${modelInfo.groupKey}.set${subModelInfo.fieldName?cap_first}(${subModelInfo.fieldName});
+            </#list>
+        }
+
+    }
+
+    <#else >
+
+    <#if modelInfo.description??>
+        /**
+        * ${modelInfo.description}
+        */
     </#if>
-    @CommandLine.Option(
-    names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}" ,</#if><#if modelInfo.fieldName??>"--${modelInfo.fieldName}"</#if>},
-    arity = "0..1",
-    description = "${modelInfo.description}",
-    echo = true,
-    interactive = true)
-    private ${modelInfo.type} ${modelInfo.fieldName}<#if !forcedInteractiveSwitch><#if modelInfo.defaultValue??>= ${modelInfo.defaultValue?c}</#if></#if> ;
+    <@generateOption indent="        " modelInfo=modelInfo />
+    </#if>
 </#list>
 
     @SneakyThrows
@@ -39,8 +76,24 @@ public class GenerateCommand implements Runnable {
         ReflexUtil.setFieldsWithInteractiveAnnotation(this, this.getClass());
         </#if>
 
+        <#list modelConfig.models.dataModel.filedInfo as modelInfo>
+        <#if modelInfo.groupKey??>
+        <#if modelInfo.condition??>
+        if(${modelInfo.condition}) {
+            <@generateCommand indent="        " modelInfo=modelInfo />
+        }
+        <#else >
+        <@generateCommand indent="    " modelInfo=modelInfo />
+        </#if>
+        </#if>
+        </#list>
         DataModel config = new DataModel();
         BeanUtil.copyProperties(this, config);
+        <#list modelConfig.models.dataModel.filedInfo as modelInfo>
+        <#if modelInfo.groupKey??>
+        config.set${modelInfo.groupKey?cap_first}(${modelInfo.groupKey});
+        </#if>
+        </#list>
         MainGenerator.doGenerate(config);
     }
 }

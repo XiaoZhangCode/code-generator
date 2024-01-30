@@ -54,6 +54,10 @@ public class Meta {
             private String outputPath;
             private String type;
             private String generateType;
+            private String condition;
+            private String groupKey;
+            private String groupName;
+            private List<FileInfoDTO> files;
         }
     }
 
@@ -81,6 +85,14 @@ public class Meta {
                     private String description;
                     private Object defaultValue;
                     private String abbr;
+                    private String groupKey;
+                    private String groupName;
+                    private List<FiledInfoDTO> models;
+                    private String condition;
+
+
+                    // 中间参数需要我们校验时设置 然后传递给模板
+                    private String allArgsStr;
                 }
             }
         }

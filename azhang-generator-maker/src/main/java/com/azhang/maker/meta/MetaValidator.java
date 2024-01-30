@@ -9,6 +9,7 @@ import com.azhang.maker.meta.enums.ModelTypeEnum;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Meta 校验类
@@ -50,6 +51,12 @@ public class MetaValidator {
                         throw new MetaException("filedInfo 不能为空!");
                     }
                     for (Meta.ModelConfigDTO.ModelInfoDTO.DataModelDTO.FiledInfoDTO infoDTO : filedInfo) {
+                        if(StrUtil.isNotEmpty(infoDTO.getGroupKey())){
+                            List<Meta.ModelConfigDTO.ModelInfoDTO.DataModelDTO.FiledInfoDTO> dtoModels = infoDTO.getModels();
+                            String argsStr = dtoModels.stream().map(subInfoDTO -> String.format("\"--%s\"", subInfoDTO.getFieldName())).collect(Collectors.joining(", "));
+                            infoDTO.setAllArgsStr(argsStr);
+                            continue;
+                        }
                         String fieldName = infoDTO.getFieldName();
                         if(StrUtil.isBlank(fieldName)){
                             throw new MetaException("fieldName 不能为空!");
@@ -93,6 +100,10 @@ public class MetaValidator {
             return;
         }
         for (Meta.FileConfigDTO.FileInfoDTO fileInfoDTO : fileInfoList) {
+            String type1 = fileInfoDTO.getType();
+            if(FileTypeEnum.GROUP.getValue().equals(type1)){
+                continue;
+            }
             // 必填项
             String inputPath = fileInfoDTO.getInputPath();
             if(StrUtil.isBlank(inputPath)){

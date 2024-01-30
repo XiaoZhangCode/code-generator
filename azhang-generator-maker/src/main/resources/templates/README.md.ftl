@@ -54,15 +54,30 @@ windows
 
 参数说明:
 <#list modelConfig.models.dataModel.filedInfo  as modelInfo>
+<#if modelInfo.groupKey??>
+## ${modelInfo.groupName}
+<#list modelInfo.models as subModelInfo>
+#### ${subModelInfo?index + 1}) ${subModelInfo.fieldName}
+
+类型: ${subModelInfo.type}
+
+描述: ${subModelInfo.description}
+
+默认值: ${subModelInfo.defaultValue?c}
+
+命令缩写: ${subModelInfo.abbr}
+</#list>
+<#else >
 #### ${modelInfo?index + 1}) ${modelInfo.fieldName}
 
-    类型: ${modelInfo.type}
+类型: ${modelInfo.type}
 
-    描述: ${modelInfo.description}
+描述: ${modelInfo.description}
 
-    默认值: ${modelInfo.defaultValue?c}
+默认值: ${modelInfo.defaultValue?c}
 
-    命令缩写: ${modelInfo.abbr}
+命令缩写: ${modelInfo.abbr}
+</#if>
 </#list>
 
 <strong>注: forcedInteractiveSwitch配置项 如开启 默认值不生效 即使不填充任何参数 也需要输入参数</strong>
