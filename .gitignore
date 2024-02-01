@@ -186,3 +186,6 @@ apex-scripts/*
 
 # 生成文件
 Generated
+
+# 临时文件
+.temp

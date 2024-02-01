@@ -1,6 +1,5 @@
 package com.azhang.maker.generator.file;
 
-import com.azhang.maker.model.DataModel;
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -32,11 +31,5 @@ public class FileGenerator {
         DynamicFileGenerator.doGenerate(dynamicInputPath, dynamicOutputPath,model);
     }
 
-    public static void main(String[] args) throws TemplateException, IOException {
-        DataModel dataModel = new DataModel();
-        dataModel.setLoop(true);
-        dataModel.setAuthor("zhang");
-        dataModel.setOutputText("结果 :");
-        doGenerate(dataModel);
-    }
+
 }
