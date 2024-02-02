@@ -16,7 +16,7 @@ public class TemplateMakerFileConfig {
     /**
      * 文件过滤信息配置列表
      */
-    private List<FileInfoConfig> fileInfoConfigList;
+    private List<FileInfoConfig> files;
 
     /**
      * 文件分组配置
@@ -26,7 +26,7 @@ public class TemplateMakerFileConfig {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class FileInfoConfig{
+    public static class FileInfoConfig {
         /**
          * 文件路径/目录路径
          */
@@ -35,13 +35,17 @@ public class TemplateMakerFileConfig {
          * 文件过滤配置
          */
         public List<FileFilterConfig> fileFilterConfigList;
+        /**
+         * 文件生成条件
+         */
+        private String condition;
     }
 
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class FileGroupConfig{
+    public static class FileGroupConfig {
         /**
          * 组的唯一标识
          */
@@ -55,7 +59,6 @@ public class TemplateMakerFileConfig {
          */
         public String condition;
     }
-
 
 
 }

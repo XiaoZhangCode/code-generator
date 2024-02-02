@@ -18,10 +18,11 @@ ${indent}interactive = true)
 ${indent}private ${modelInfo.type} ${modelInfo.fieldName}<#if !forcedInteractiveSwitch><#if modelInfo.defaultValue??>= ${modelInfo.defaultValue?c}</#if></#if>;
 </#macro>
 
+<#-- 生成命令调用 -->
 <#macro generateCommand indent modelInfo>
-${indent}System.out.println("请输入${modelInfo.groupName}配置:");
-${indent}CommandLine commandLine = new CommandLine(${modelInfo.type}Command.class);
-${indent}commandLine.execute(${modelInfo.allArgsStr});
+    ${indent}System.out.println("输入${modelInfo.groupName}配置：");
+    ${indent}CommandLine ${modelInfo.groupKey}CommandLine = new CommandLine(${modelInfo.type}Command.class);
+    ${indent}${modelInfo.groupKey}CommandLine.execute(${modelInfo.allArgsStr});
 </#macro>
 
 /**

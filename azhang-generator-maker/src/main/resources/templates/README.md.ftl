@@ -65,7 +65,7 @@ windows
 
 默认值: ${subModelInfo.defaultValue?c}
 
-命令缩写: ${subModelInfo.abbr}
+命令缩写: ${modelInfo.abbr!"无"}
 </#list>
 <#else >
 #### ${modelInfo?index + 1}) ${modelInfo.fieldName}
@@ -76,7 +76,7 @@ windows
 
 默认值: ${modelInfo.defaultValue?c}
 
-命令缩写: ${modelInfo.abbr}
+命令缩写: ${modelInfo.abbr!"无"}
 </#if>
 </#list>
 
