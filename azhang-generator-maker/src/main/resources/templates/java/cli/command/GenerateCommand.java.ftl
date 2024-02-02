@@ -33,7 +33,7 @@ ${indent}commandLine.execute(${modelInfo.allArgsStr});
 @CommandLine.Command(name = "generate", mixinStandardHelpOptions = true, description = "生成命令")
 public class GenerateCommand implements Runnable {
 
-<#list modelConfig.models.dataModel.filedInfo as modelInfo>
+<#list modelConfig.models as modelInfo>
 
     <#if modelInfo.groupKey??>
     /**
@@ -76,7 +76,7 @@ public class GenerateCommand implements Runnable {
         ReflexUtil.setFieldsWithInteractiveAnnotation(this, this.getClass());
         </#if>
 
-        <#list modelConfig.models.dataModel.filedInfo as modelInfo>
+        <#list modelConfig.models as modelInfo>
         <#if modelInfo.groupKey??>
         <#if modelInfo.condition??>
         if(${modelInfo.condition}) {
@@ -89,7 +89,7 @@ public class GenerateCommand implements Runnable {
         </#list>
         DataModel config = new DataModel();
         BeanUtil.copyProperties(this, config);
-        <#list modelConfig.models.dataModel.filedInfo as modelInfo>
+        <#list modelConfig.models as modelInfo>
         <#if modelInfo.groupKey??>
         config.set${modelInfo.groupKey?cap_first}(${modelInfo.groupKey});
         </#if>

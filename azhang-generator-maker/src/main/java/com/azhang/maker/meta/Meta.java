@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -24,7 +25,7 @@ public class Meta {
     private String author;
     private String createTime;
     private FileConfigDTO fileConfig;
-    private ModelConfigDTO modelConfig;
+    private ModelConfig modelConfig;
     /**
      * 用户强制输入开关
      */
@@ -63,38 +64,25 @@ public class Meta {
 
     @NoArgsConstructor
     @Data
-    public static class ModelConfigDTO {
-        private ModelInfoDTO models;
+    public static class ModelConfig implements Serializable {
+        private List<ModelInfo> models;
 
         @NoArgsConstructor
         @Data
-        public static class ModelInfoDTO {
-            private DataModelDTO dataModel;
+        public static class ModelInfo implements Serializable {
+            private String fieldName;
+            private String type;
+            private String description;
+            private Object defaultValue;
+            private String abbr;
+            private String groupKey;
+            private String groupName;
+            private List<ModelInfo> models;
+            private String condition;
 
-            @NoArgsConstructor
-            @Data
-            public static class DataModelDTO {
-                private String description;
-                private List<FiledInfoDTO> filedInfo;
-
-                @NoArgsConstructor
-                @Data
-                public static class FiledInfoDTO {
-                    private String fieldName;
-                    private String type;
-                    private String description;
-                    private Object defaultValue;
-                    private String abbr;
-                    private String groupKey;
-                    private String groupName;
-                    private List<FiledInfoDTO> models;
-                    private String condition;
-
-
-                    // 中间参数需要我们校验时设置 然后传递给模板
-                    private String allArgsStr;
-                }
-            }
+            // 中间参数
+            // 该分组下所有参数拼接字符串
+            private String allArgsStr;
         }
     }
 

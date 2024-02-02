@@ -43,49 +43,44 @@
     ]
   },
   "modelConfig": {
-    "models": {
-      "dataModel": {
-        "description": "动态模板配置",
-        "filedInfo": [
+    "models": [
+      {
+        "fieldName": "needGit",
+        "type": "Boolean",
+        "description": "是否生成.gitignore文件",
+        "defaultValue": true,
+        "abbr": "n"
+      },
+      {
+        "fieldName": "loop",
+        "type": "Boolean",
+        "description": "是否生成循环",
+        "defaultValue": false,
+        "abbr": "l"
+      },
+      {
+        "groupKey": "mainTemplate",
+        "groupName": "核心模板",
+        "type": "MainTemplate",
+        "description": "核心模板参数",
+        "condition": "loop",
+        "models": [
           {
-            "fieldName": "needGit",
-            "type": "Boolean",
-            "description": "是否生成.gitignore文件",
-            "defaultValue": true,
-            "abbr": "n"
+            "fieldName": "author",
+            "type": "String",
+            "description": "作者注释",
+            "defaultValue": "azhang",
+            "abbr": "a"
           },
           {
-            "fieldName": "loop",
-            "type": "Boolean",
-            "description": "是否生成循环",
-            "defaultValue": false,
-            "abbr": "l"
-          },
-          {
-            "groupKey": "mainTemplate",
-            "groupName": "核心模板",
-            "type": "MainTemplate",
-            "description": "核心模板参数",
-            "condition": "loop",
-            "models": [
-              {
-                "fieldName": "author",
-                "type": "String",
-                "description": "作者注释",
-                "defaultValue": "azhang",
-                "abbr": "a"
-              },
-              {
-                "fieldName": "outputText",
-                "type": "String",
-                "description": "输出信息",
-                "defaultValue": "sum = ",
-                "abbr": "o"
-              }
-            ]
+            "fieldName": "outputText",
+            "type": "String",
+            "description": "输出信息",
+            "defaultValue": "sum = ",
+            "abbr": "o"
           }
         ]
       }
-    }
+    ]
   }
 }

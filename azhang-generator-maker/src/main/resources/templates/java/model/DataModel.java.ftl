@@ -18,14 +18,13 @@ ${indent}private ${modelInfo.type} ${modelInfo.fieldName} <#if modelInfo.default
 /**
  * @author ${author}
  * @date ${.now}
- * ${modelConfig.models.dataModel.description}
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataModel {
 
-<#list modelConfig.models.dataModel.filedInfo as modelInfo>
+<#list modelConfig.models as modelInfo>
     <#--  有分组  -->
     <#if modelInfo.groupKey??>
     /**

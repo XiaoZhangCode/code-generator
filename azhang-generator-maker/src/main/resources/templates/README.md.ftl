@@ -53,7 +53,7 @@ windows
 ```
 
 参数说明:
-<#list modelConfig.models.dataModel.filedInfo  as modelInfo>
+<#list modelConfig.models  as modelInfo>
 <#if modelInfo.groupKey??>
 ## ${modelInfo.groupName}
 <#list modelInfo.models as subModelInfo>

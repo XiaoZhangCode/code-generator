@@ -39,7 +39,7 @@ public class MainGenerator {
 
         String inputPath;
         String outputPath;
-        <#list modelConfig.models.dataModel.filedInfo as modelInfo>
+        <#list modelConfig.models as modelInfo>
         <#if modelInfo.groupKey??>
         <#list modelInfo.models as subModelInfo>
         ${subModelInfo.type} ${subModelInfo.fieldName} = model.get${modelInfo.type}().get${subModelInfo.fieldName?cap_first}();
