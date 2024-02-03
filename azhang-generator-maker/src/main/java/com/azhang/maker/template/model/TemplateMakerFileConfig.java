@@ -1,6 +1,7 @@
 package com.azhang.maker.template.model;
 
 
+import com.azhang.maker.template.enums.CodeCheckTypeEnums;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,38 @@ public class TemplateMakerFileConfig {
          * 文件生成条件
          */
         private String condition;
+
+        /**
+         * 需要被控制生成的代码列表
+         */
+        private List<ControlCodeInfoConfig> controlCodeConfigList;
+
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ControlCodeInfoConfig {
+        /**
+         * 为true 则是 当存在时生成 为false时 需要增加一个 !
+         */
+        public boolean conditionExist;
+
+        /**
+         * 代码生成条件
+         */
+        private String condition;
+
+        /**
+         * 需要被控制的代码
+         */
+        public String controlCode;
+
+        /**
+         * 代码校验类型 默认是包含
+         */
+        public String codeCheckType = CodeCheckTypeEnums.EQUALS.getValue();
+
     }
 
 

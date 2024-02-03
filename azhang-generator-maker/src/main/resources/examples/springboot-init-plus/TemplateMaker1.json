@@ -1,0 +1,25 @@
+{
+  "id": 1,
+  "fileConfig": {
+    "files": [
+      {
+        "path": ""
+      }
+    ]
+  },
+  "modelConfig": {
+    "fileDirPathConfig": {
+      "fieldName": "basePackage",
+      "replaceText": "com.yupi"
+    },
+    "models": [
+      {
+        "fieldName": "basePackage",
+        "type": "String",
+        "description": "基础包名",
+        "defaultValue": "com.azhang",
+        "replaceText": "com.yupi"
+      }
+    ]
+  }
+}

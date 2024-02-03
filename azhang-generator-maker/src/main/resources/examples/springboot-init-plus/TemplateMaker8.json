@@ -1,0 +1,66 @@
+{
+  "id": 1,
+  "fileConfig": {
+    "files": [
+      {
+        "path": "src/main/java/com/yupi/springbootinit/model/dto/post/PostEsDTO.java",
+        "condition": "needPost && needEs"
+      },
+      {
+        "path": "src/main/java/com/yupi/springbootinit/controller/PostController.java",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "    /**\n     * 分页搜索（从 ES 查询）\n     *\n     * @param postQueryRequest\n     * @return\n     */\n    @PostMapping(\"/search/page\")\n    public BaseResponse<Page<Post>> searchPostByPage(@RequestBody PostQueryRequest postQueryRequest) {\n        long size = postQueryRequest.getPageSize();\n        // 限制爬虫\n        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);\n        Page<Post> postPage = postService.searchFromEs(postQueryRequest);\n        return ResultUtils.success(postPage);\n    }",
+            "condition": "needEs",
+            "conditionExist": true
+          }
+        ]
+      },
+      {
+        "path": "src/main/java/com/yupi/springbootinit/service/PostService.java",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "    /**\n     * 从 ES 查询\n     *\n     * @param postQueryRequest\n     * @return\n     */\n    Page<Post> searchFromEs(PostQueryRequest postQueryRequest);",
+            "condition": "needEs",
+            "conditionExist": true
+          }
+        ]
+      },
+      {
+        "path": "src/main/java/com/yupi/springbootinit/service/impl/PostServiceImpl.java",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "@Override\\n\\s*public\\s+Page<Post>\\s+searchFromEs\\(PostQueryRequest\\s+postQueryRequest\\)[\\s\\S]*?return\\s*page;[\\s\\S]*?}\n",
+            "condition": "needEs",
+            "conditionExist": true,
+            "codeCheckType": "regex"
+          }
+        ]
+      },
+      {
+        "path": "src/main/resources/application.yml",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "  # Elasticsearch 配置\n  # todo 需替换配置，然后取消注释\n#  elasticsearch:\n#    uris: http://localhost:9200\n#    username: elasticsearch\n#    password: elasticsearchRoot",
+            "condition": "needEs",
+            "conditionExist": true
+          }
+        ]
+      }
+    ]
+  },
+  "modelConfig": {
+    "fileDirPathConfig": {
+      "fieldName": "basePackage",
+      "replaceText": "com.yupi"
+    },
+    "models": [
+      {
+        "fieldName": "needEs",
+        "type": "Boolean",
+        "description": "是否开启ES功能",
+        "defaultValue": true
+      }
+    ]
+  }
+}

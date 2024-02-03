@@ -1,0 +1,43 @@
+{
+  "id": 1,
+  "fileConfig": {
+    "fileGroupConfig": {
+      "groupKey": "post",
+      "groupName": "帖子文件组",
+      "condition": "needPost"
+    },
+    "files": [
+      {
+        "path": "src/main",
+        "fileFilterConfigList": [
+          {
+            "range": "fileName",
+            "rule": "contains",
+            "value": "Post"
+          }
+        ],
+        "controlCodeConfigList": [
+          {
+            "controlCode": "#\\{[^{}]+\\}",
+            "codeCheckType": "regexAll"
+          }
+        ]
+      }
+    ]
+  },
+  "modelConfig": {
+    "fileDirPathConfig": {
+      "fieldName": "basePackage",
+      "replaceText": "com.yupi"
+    },
+    "models": [
+      {
+        "fieldName": "needPost",
+        "type": "Boolean",
+        "description": "是否开启帖子功能",
+        "defaultValue": true
+      }
+
+    ]
+  }
+}

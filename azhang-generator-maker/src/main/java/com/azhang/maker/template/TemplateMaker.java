@@ -4,19 +4,19 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.azhang.maker.meta.enums.FileGenerateTypeEnum;
 import com.azhang.maker.meta.enums.FileTypeEnum;
-import com.azhang.maker.template.enums.FileFilerRuleEnum;
-import com.azhang.maker.template.enums.FileFilterRangeEnum;
+import com.azhang.maker.template.enums.CodeCheckTypeEnums;
 import com.azhang.maker.meta.Meta;
 import com.azhang.maker.template.model.*;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 /**
  * 模板制作工具
@@ -38,6 +38,7 @@ public class TemplateMaker {
 
     /**
      * 生成模板
+     *
      * @param templateMakerConfig 模板制作配置
      * @return id
      */
@@ -48,7 +49,7 @@ public class TemplateMaker {
         TemplateMakerModelConfig templateMakerModelConfig = templateMakerConfig.getModelConfig();
         Long id = templateMakerConfig.getId();
         TemplateMakerOutputConfig templateMakerOutputConfig = templateMakerConfig.getOutputConfig();
-        return makeTemplate(newMeta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, templateMakerOutputConfig,id);
+        return makeTemplate(newMeta, originProjectPath, templateMakerFileConfig, templateMakerModelConfig, templateMakerOutputConfig, id);
     }
 
 
@@ -81,7 +82,7 @@ public class TemplateMaker {
         }
 
         // 工作空间的项目的目录
-        String sourceRootPath = FileUtil.normalize(FileUtil.loopFiles(new File(templatePath),1,null)
+        String sourceRootPath = FileUtil.normalize(FileUtil.loopFiles(new File(templatePath), 1, null)
                 .stream()
                 .filter(File::isDirectory)
                 .findFirst()
@@ -125,9 +126,14 @@ public class TemplateMaker {
             modelConfig.setModels(modelInfoList);
             meta.setModelConfig(modelConfig);
         }
+
+
         // 额外的输出规则
-        if(templateMakerOutputConfig!=null){
-            if(templateMakerOutputConfig.isRemoveGroupFileFromRoot()){
+        if (templateMakerOutputConfig != null) {
+            if(templateMakerOutputConfig.isRemoveFileFromGroup()){
+                meta.getFileConfig().setFiles( TemplateMakerUtils.removeFileFromGroup(meta.getFileConfig().getFiles()));
+            }
+            if (templateMakerOutputConfig.isRemoveGroupFileFromRoot()) {
                 meta.getFileConfig().setFiles(TemplateMakerUtils.removeGroupFileFromRoot(meta.getFileConfig().getFiles()));
             }
         }
@@ -139,18 +145,19 @@ public class TemplateMaker {
 
     /**
      * 获取模型配置
+     *
      * @param templateMakerModelConfig 模型配置
      * @return 模型信息
      */
     private static List<Meta.ModelConfig.ModelInfo> getModelInfoList(TemplateMakerModelConfig templateMakerModelConfig) {
         List<Meta.ModelConfig.ModelInfo> modelInfos = new ArrayList<>();
         // 非空校验
-        if(templateMakerModelConfig == null){
+        if (templateMakerModelConfig == null) {
             return modelInfos;
         }
         // 模型处理
         List<TemplateMakerModelConfig.ModelInfoConfig> models = templateMakerModelConfig.getModels();
-        if(CollUtil.isEmpty(models)){
+        if (CollUtil.isEmpty(models)) {
             return modelInfos;
         }
 
@@ -174,20 +181,21 @@ public class TemplateMaker {
 
     /**
      * 生成多文件
-     * @param templateMakerFileConfig 文件配置
+     *
+     * @param templateMakerFileConfig  文件配置
      * @param templateMakerModelConfig 模型配置
-     * @param sourceRootPath 源文件目录
+     * @param sourceRootPath           源文件目录
      * @return 文件列表
      */
     private static List<Meta.FileConfigDTO.FileInfoDTO> makeFileTemplates(TemplateMakerFileConfig templateMakerFileConfig,
                                                                           TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath) {
         List<Meta.FileConfigDTO.FileInfoDTO> newFileInfoList = new ArrayList<>();
         // 非空校验
-        if(templateMakerFileConfig==null){
+        if (templateMakerFileConfig == null) {
             return newFileInfoList;
         }
         List<TemplateMakerFileConfig.FileInfoConfig> infoConfigList = templateMakerFileConfig.getFiles();
-        if(CollUtil.isEmpty(infoConfigList)){
+        if (CollUtil.isEmpty(infoConfigList)) {
             return newFileInfoList;
         }
         // 生成模板文件
@@ -200,7 +208,7 @@ public class TemplateMaker {
             fileList = fileList.stream().filter(file -> !file.getAbsolutePath().endsWith(TEMPLATE_FILE_SUFFIX)).collect(Collectors.toList());
 
             for (File file : fileList) {
-                Meta.FileConfigDTO.FileInfoDTO fileInfo = makeFileTemplate(file, templateMakerModelConfig, sourceRootPath,fileInfoConfig);
+                Meta.FileConfigDTO.FileInfoDTO fileInfo = makeFileTemplate(file, templateMakerModelConfig, sourceRootPath, fileInfoConfig);
                 newFileInfoList.add(fileInfo);
             }
 
@@ -234,7 +242,10 @@ public class TemplateMaker {
      * @param sourceRootPath           项目源目录
      * @return 文件信息
      */
-    private static Meta.FileConfigDTO.FileInfoDTO makeFileTemplate(File inputFile, TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath, TemplateMakerFileConfig.FileInfoConfig fileInfoConfig) {
+    private static Meta.FileConfigDTO.FileInfoDTO makeFileTemplate(File inputFile,
+                                                                   TemplateMakerModelConfig templateMakerModelConfig,
+                                                                   String sourceRootPath,
+                                                                   TemplateMakerFileConfig.FileInfoConfig fileInfoConfig) {
         // 输入文件的绝对路径
         String fileInputAbsolutePath = FileUtil.normalize(inputFile.getAbsolutePath());
         // 输入文件变成模板文件后保存的路径
@@ -266,6 +277,65 @@ public class TemplateMaker {
                 replacement = String.format("${%s.%s}", modelGroupConfig.getGroupKey(), fieldName);
             }
             newFileContext = StrUtil.replace(newFileContext, modelInfoConfig.getReplaceText(), replacement);
+        }
+
+        // 路径替换
+        TemplateMakerModelConfig.ModelInfoConfig fileDirPathConfig = templateMakerModelConfig.getFileDirPathConfig();
+        if(fileDirPathConfig!=null){
+            String[] inputPathAndFileSuffix = fileInputPath.split("\\.");
+            if(inputPathAndFileSuffix.length > 1){
+                fileInputPath =
+                        inputPathAndFileSuffix[0].replace("/", ".")
+                                .replace(fileDirPathConfig.getReplaceText(), "{" + fileDirPathConfig.getFieldName() + "}")
+                                .replace(".", "/");
+                for (int i = 1; i < inputPathAndFileSuffix.length; i++) {
+                    fileInputPath += "." + inputPathAndFileSuffix[i];
+                }
+            }
+
+        }
+        // 控制代码是否生成 逻辑
+        List<TemplateMakerFileConfig.ControlCodeInfoConfig> codeConfigList = fileInfoConfig.getControlCodeConfigList();
+        if (CollUtil.isNotEmpty(codeConfigList)) {
+            for (TemplateMakerFileConfig.ControlCodeInfoConfig infoConfig : codeConfigList) {
+                String controlCode = infoConfig.getControlCode();
+                boolean conditionExist = infoConfig.isConditionExist();
+                String condition = infoConfig.getCondition();
+                String codeCheckType = infoConfig.getCodeCheckType();
+                CodeCheckTypeEnums codeCheckTypeEnum = CodeCheckTypeEnums.getEnumByValue(codeCheckType);
+                String replaceCodeContext = null;
+                switch (codeCheckTypeEnum){
+                    case EQUALS:
+                        replaceCodeContext = String.format("<#if %s>\n %s \n</#if>", conditionExist ? condition : "!" + condition, controlCode);
+                        break;
+                    case REGEX:
+                        // 字符串中根据正则表达式查找内容  如果是正则 我们需要先找到正则匹配的内容 然后替换
+                        String fullControlCode = ReUtil.get(controlCode, fileContent, 0);
+                        replaceCodeContext = String.format("<#if %s>\n %s \n</#if>", conditionExist ? condition : "!" + condition, fullControlCode);
+                        controlCode = fullControlCode;
+                        break;
+                    case REGEX_ALL:
+                        List<String> fullControlCodes = ReUtil.findAll( controlCode,fileContent,0);
+                        for (String code : fullControlCodes) {
+                            replaceCodeContext = String.format("<#noparse> %s </#noparse>", code);
+                            controlCode = code;
+                            // 判断目前内容中是否已有我们需要生成的内容 如果有就不操作了 否则执行替换
+                            boolean contains = StrUtil.contains(newFileContext, replaceCodeContext);
+                            if (!contains) {
+                                newFileContext = StrUtil.replace(newFileContext, controlCode, replaceCodeContext);
+                            }
+                        }
+                        continue;
+                    default:
+                        break;
+                }
+                // 判断目前内容中是否已有我们需要生成的内容 如果有就不操作了 否则执行替换
+                boolean contains = StrUtil.contains(newFileContext, replaceCodeContext);
+                if (!contains) {
+                    newFileContext = StrUtil.replace(newFileContext, controlCode, replaceCodeContext);
+                }
+
+            }
         }
 
 

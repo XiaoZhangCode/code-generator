@@ -258,7 +258,7 @@ public class TemplateMakerTest {
     @Test
     public void makeSpringBootTemplate() {
         String rootPath = "examples/springboot-init/";
-        String configStr = ResourceUtil.readUtf8Str(rootPath + "springboot-init-meta.json");
+        String configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker.json");
         TemplateMakerConfig templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
         long id = TemplateMaker.makeTemplate(templateMakerConfig);
 
@@ -295,6 +295,62 @@ public class TemplateMakerTest {
         configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker8.json");
         templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
         TemplateMaker.makeTemplate(templateMakerConfig);
+
+        System.out.println(id);
+    }
+
+
+    @Test
+    public void makeSpringBootTemplateTest() {
+        String rootPath = "examples/springboot-init-plus/";
+        String configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker.json");
+        TemplateMakerConfig templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        long id = TemplateMaker.makeTemplate(templateMakerConfig);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker1.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker2.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker3.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker4.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker5.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker6.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker7.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "TemplateMaker8.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        templateMakerConfig.setId(2L);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+
+
 
         System.out.println(id);
     }

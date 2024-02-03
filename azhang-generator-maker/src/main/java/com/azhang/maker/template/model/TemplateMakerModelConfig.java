@@ -14,6 +14,11 @@ public class TemplateMakerModelConfig {
 
     private ModelGroupConfig modelGroupConfig;
 
+    /**
+     * 用来替换文件路径 里面的fieldName models中的一个 只要分步制作用过即可
+     */
+    private ModelInfoConfig fileDirPathConfig;
+
     @Data
     public static class ModelInfoConfig {
         private String fieldName;

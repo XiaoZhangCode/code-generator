@@ -1,0 +1,52 @@
+{
+  "id": 1,
+  "fileConfig": {
+    "files": [
+      {
+        "path": "src/main/resources/application.yml",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "  # Redis 配置\n  # todo 需替换配置，然后取消注释\n#  redis:\n#    database: 1\n#    host: localhost\n#    port: 6379\n#    timeout: 5000\n#    password: RedisRoot",
+            "condition": "needRedis",
+            "conditionExist": true
+          }
+        ]
+      },
+      {
+        "path": "src/main/java/com/yupi/springbootinit/MainApplication.java",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "(exclude = {RedisAutoConfiguration.class})",
+            "condition": "needRedis",
+            "conditionExist": false
+          }
+        ]
+      },
+      {
+        "path": "pom.xml",
+        "controlCodeConfigList": [
+          {
+            "controlCode": "<!--\\s*redis\\s*-->[\\s\\S]*<artifactId>spring-session-data-redis</artifactId>.*?\\n\\s*</dependency>\n",
+            "condition": "needRedis",
+            "conditionExist": true,
+            "codeCheckType": "regex"
+          }
+        ]
+      }
+    ]
+  },
+  "modelConfig": {
+    "fileDirPathConfig": {
+      "fieldName": "basePackage",
+      "replaceText": "com.yupi"
+    },
+    "models": [
+      {
+        "fieldName": "needRedis",
+        "type": "Boolean",
+        "description": "是否开启Redis功能",
+        "defaultValue": true
+      }
+    ]
+  }
+}

@@ -13,5 +13,10 @@ public class TemplateMakerOutputConfig {
      */
     private boolean removeGroupFileFromRoot = true;
 
+    /**
+     * 多个生成条件下 将文件移出组内 放在外层
+     */
+    private boolean removeFileFromGroup = true;
+
 
 }
