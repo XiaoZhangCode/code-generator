@@ -6,10 +6,8 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import picocli.CommandLine;
 
-
-
-import static com.azhang.generator.MainGenerator.doGenerate;
 import static com.azhang.cli.util.ReflexUtil.setFieldsWithInteractiveAnnotation;
+import static com.azhang.generator.MainGenerator.doGenerate;
 
 /**
  * @author zhang

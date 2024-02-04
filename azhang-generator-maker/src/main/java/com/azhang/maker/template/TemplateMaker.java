@@ -7,14 +7,20 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import com.azhang.maker.meta.Meta;
 import com.azhang.maker.meta.enums.FileGenerateTypeEnum;
 import com.azhang.maker.meta.enums.FileTypeEnum;
 import com.azhang.maker.template.enums.CodeCheckTypeEnums;
-import com.azhang.maker.meta.Meta;
-import com.azhang.maker.template.model.*;
+import com.azhang.maker.template.model.TemplateMakerConfig;
+import com.azhang.maker.template.model.TemplateMakerFileConfig;
+import com.azhang.maker.template.model.TemplateMakerModelConfig;
+import com.azhang.maker.template.model.TemplateMakerOutputConfig;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 

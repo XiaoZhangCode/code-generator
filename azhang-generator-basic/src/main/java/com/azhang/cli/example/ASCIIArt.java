@@ -2,8 +2,9 @@ package com.azhang.cli.example;
 
 import lombok.Data;
 import picocli.CommandLine;
-import picocli.CommandLine.*;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 /**
  * @author zhang

@@ -3,7 +3,7 @@ package com.azhang.maker.meta;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.*;
+import cn.hutool.core.util.StrUtil;
 import com.azhang.maker.meta.enums.FileGenerateTypeEnum;
 import com.azhang.maker.meta.enums.FileTypeEnum;
 import com.azhang.maker.meta.enums.ModelTypeEnum;
