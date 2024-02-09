@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azhang.web.mapper.GeneratorMapper">
+
+    <resultMap id="BaseResultMap" type="com.azhang.web.model.entity.Generator">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="thumbNum" column="thumbNum" jdbcType="BIGINT"/>
+        <result property="favourNum" column="favourNum" jdbcType="BIGINT"/>
+        <result property="userId" column="userId" jdbcType="BIGINT"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,content,tags,
+        thumbNum,favourNum,userId,
+        createTime,updateTime,isDelete
+    </sql>
+
+    <select id="listGeneratorWithDelete" resultType="com.azhang.web.model.entity.Generator">
+        select *
+        from code_generate.generator
+        where updateTime >= #{minUpdateTime}
+    </select>
+</mapper>
