@@ -1,4 +1,5 @@
 import { listGeneratorVoByPageUsingPost } from '@/services/backend/generatorController';
+import { doGeneratorFavourUsingPost } from '@/services/backend/generatorFavourController';
 import { doThumbUsingPost } from '@/services/backend/generatorThumbController';
 import {
   DownOutlined,
@@ -15,15 +16,16 @@ import {
   ProList,
   QueryFilter,
 } from '@ant-design/pro-components';
+import { Link } from '@umijs/max';
 import { Flex, Image, Input, message, Tabs, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
-import {doGeneratorFavourUsingPost} from "@/services/backend/generatorFavourController";
 
 const DEFAULT_PAGE_PARAMS: PageRequest = {
   current: 1,
   pageSize: 4,
   sortField: 'createTime',
-  sortOrder: 'descend',
+  // @ts-ignore
+  sortOrder: 'newest',
 };
 
 const IndexPage: React.FC = () => {
@@ -81,7 +83,6 @@ const IndexPage: React.FC = () => {
     setLoading(false);
   };
 
-
   const doFavour = async (req: API.GeneratorFavourAddRequest) => {
     setLoading(true);
     try {
@@ -124,7 +125,21 @@ const IndexPage: React.FC = () => {
       <div style={{ marginBottom: 12 }}></div>
       <Tabs
         defaultActiveKey="newest"
-        onChange={() => {}}
+        onChange={(e) => {
+          if (e === 'newest') {
+            setSearchParams({
+              ...searchParams,
+              sortOrder: e,
+              sortField: 'createTime',
+            });
+          } else {
+            setSearchParams({
+              ...searchParams,
+              sortOrder: e,
+              sortField: 'thumbNum',
+            });
+          }
+        }}
         tabBarExtraContent={
           <a
             style={{
@@ -146,10 +161,6 @@ const IndexPage: React.FC = () => {
           {
             key: 'recommend',
             label: '推荐',
-          },
-          {
-            key: 'hot',
-            label: '热门',
           },
         ]}
       />
@@ -174,7 +185,7 @@ const IndexPage: React.FC = () => {
 
       <div style={{ marginBottom: 12 }}></div>
       <ProList<API.GeneratorVO>
-        style={{cursor:'pointer'}}
+        style={{ cursor: 'pointer' }}
         pagination={{
           pageSize: searchParams.pageSize,
           current: searchParams.current,
@@ -194,7 +205,16 @@ const IndexPage: React.FC = () => {
         metas={{
           title: {
             render: (_, entity) => {
-              return <div style={{ paddingLeft: '10px' }}>{entity.name}</div>;
+              return (
+                <div style={{ paddingLeft: '10px' }}>
+                  <Link
+                    style={{ color: '#333', fontSize: 18 }}
+                    to={`/generator/detail/${entity.id}`}
+                  >
+                    {entity.name}
+                  </Link>
+                </div>
+              );
             },
           },
           description: {
@@ -251,7 +271,7 @@ const IndexPage: React.FC = () => {
             render: (_: any, entity: { name: string | undefined; picture: string | undefined }) => {
               return (
                 <div style={{ paddingRight: '10px' }}>
-                  {<Image width={220} alt={entity.name} src={entity.picture} />}
+                  {<Image width={220} height={180} alt={entity.name} src={entity.picture} />}
                 </div>
               );
             },
@@ -267,4 +287,5 @@ const IndexPage: React.FC = () => {
   );
 };
 
+// @ts-ignore
 export default IndexPage;

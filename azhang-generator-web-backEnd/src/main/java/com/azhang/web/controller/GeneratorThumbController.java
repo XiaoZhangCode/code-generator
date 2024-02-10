@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 帖子点赞接口
+ * 代码生成器点赞接口
  *
  * @author codeZhang
  */

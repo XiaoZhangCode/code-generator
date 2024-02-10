@@ -12,7 +12,7 @@
 //import java.util.stream.Collectors;
 //
 ///**
-// * 增量同步帖子到 es
+// * 增量同步代码生成器到 es
 // *
 // * @author codeZhang
 // */

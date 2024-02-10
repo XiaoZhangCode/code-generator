@@ -189,3 +189,6 @@ Generated
 
 # 临时文件
 .temp
+
+# 忽略提交本地配置文件 防止密码泄露
+application-local.yml

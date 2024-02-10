@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class GeneratorFavourAddRequest implements Serializable {
 
     /**
-     * 帖子 id
+     * 代码生成器 id
      */
     private Long GeneratorId;
 

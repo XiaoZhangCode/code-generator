@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 帖子收藏
+ * 代码生成器收藏
  *
  * @author codeZhang
  **/
@@ -25,7 +25,7 @@ public class GeneratorFavour implements Serializable {
     private Long id;
 
     /**
-     * 帖子 id
+     * 代码生成器 id
      */
     private Long generatorId;
 

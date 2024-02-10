@@ -16,5 +16,16 @@ public interface CommonConstant {
      * 降序
      */
     String SORT_ORDER_DESC = " descend";
+
+    /**
+     * 最新
+     */
+    String NEWEST = " newest";
+
+
+    /**
+     * 推荐
+     */
+    String RECOMMEND = " recommend";
     
 }

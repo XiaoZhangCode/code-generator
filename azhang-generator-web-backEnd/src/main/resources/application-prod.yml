@@ -33,3 +33,10 @@ knife4j:
     enable: true
     username: root
     password: 123456
+# 对象存储
+cos:
+  client:
+    accessKey: xxx
+    secretKey: xxx
+    region: xxx
+    bucket: xxx

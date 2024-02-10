@@ -6,12 +6,12 @@ import com.azhang.maker.meta.Meta;
 
 import java.io.IOException;
 
-public class MainGenerator extends GenerateTemplate {
+public class ZipGenerator extends GenerateTemplate {
 
     @Override
     protected String buildDist(String outputPath, String jarPath, String shellOutputPath, String sourceOutputPath) {
-        System.out.println("重写子类 不生成dist精简版程序");
-        return "";
+        String distPath = super.buildDist(outputPath, jarPath, shellOutputPath, sourceOutputPath);
+        return super.buildZip(distPath);
     }
 
     @Override

@@ -9,14 +9,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * 帖子收藏服务
+ * 代码生成器收藏服务
  *
  * @author codeZhang
  */
 public interface GeneratorFavourService extends IService<GeneratorFavour> {
 
     /**
-     * 帖子收藏
+     * 代码生成器收藏
      *
      * @param postId
      * @param loginUser
@@ -25,7 +25,7 @@ public interface GeneratorFavourService extends IService<GeneratorFavour> {
     int doGeneratorFavour(long postId, User loginUser);
 
     /**
-     * 分页获取用户收藏的帖子列表
+     * 分页获取用户收藏的代码生成器列表
      *
      * @param page
      * @param queryWrapper
@@ -36,7 +36,7 @@ public interface GeneratorFavourService extends IService<GeneratorFavour> {
                                               long favourUserId);
 
     /**
-     * 帖子收藏（内部服务）
+     * 代码生成器收藏（内部服务）
      *
      * @param userId
      * @param postId

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * 帖子收藏查询请求
+ * 代码生成器收藏查询请求
  *
  * @author codeZhang
  */
@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class GeneratorFavourQueryRequest extends PageRequest implements Serializable {
 
     /**
-     * 帖子查询请求
+     * 代码生成器查询请求
      */
     private GeneratorQueryRequest generatorQueryRequest;
 

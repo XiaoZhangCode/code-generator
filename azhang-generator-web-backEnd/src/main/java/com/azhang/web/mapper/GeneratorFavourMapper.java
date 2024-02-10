@@ -10,14 +10,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 帖子收藏数据库操作
+ * 代码生成器收藏数据库操作
  *
  * @author codeZhang
  */
 public interface GeneratorFavourMapper extends BaseMapper<GeneratorFavour> {
 
     /**
-     * 分页查询收藏帖子列表
+     * 分页查询收藏代码生成器列表
      *
      * @param page
      * @param queryWrapper

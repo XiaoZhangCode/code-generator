@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
- * 帖子点赞服务实现
+ * 代码生成器点赞服务实现
  *
  * @author codeZhang
  */

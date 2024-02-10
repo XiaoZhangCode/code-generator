@@ -1,5 +1,6 @@
 package com.azhang.web.model.enums;
 
+import lombok.Getter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Arrays;
@@ -11,9 +12,12 @@ import java.util.stream.Collectors;
  *
  * @author codeZhang
  */
+@Getter
 public enum FileUploadBizEnum {
 
-    USER_AVATAR("用户头像", "user_avatar");
+    USER_AVATAR("用户头像", "user_avatar"),
+    GENERATOR_PICTURE("生成器图片", "generator_picture"),
+    GENERATOR_DIST("生成器产物包", "generator_dist");
 
     private final String text;
 
@@ -51,11 +55,4 @@ public enum FileUploadBizEnum {
         return null;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String getText() {
-        return text;
-    }
 }

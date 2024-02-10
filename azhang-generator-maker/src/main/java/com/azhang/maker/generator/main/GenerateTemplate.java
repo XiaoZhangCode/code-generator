@@ -3,6 +3,7 @@ package com.azhang.maker.generator.main;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.azhang.maker.generator.JarGenerator;
 import com.azhang.maker.generator.ScriptGenerator;
 import com.azhang.maker.generator.VersionControlGenerator;
@@ -23,7 +24,7 @@ public abstract class GenerateTemplate {
         // 输出根路径
         String projectPath = System.getProperty("user.dir");
         String outputPath = projectPath + "/Generated" + File.separator + meta.getName();
-        if(!FileUtil.exist(outputPath)){
+        if (!FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
         // 读取resource目录
@@ -32,7 +33,7 @@ public abstract class GenerateTemplate {
 
         // 1. 拷贝原始的源文件
         String sourceOutputPath = copySource(meta, outputPath);
-        
+
         // 2.代码生成
         generateCode(meta, outputPath, inputResourcePath);
 
@@ -40,7 +41,7 @@ public abstract class GenerateTemplate {
         // 3.构建jar包
         String jarPath = buildJar(outputPath, meta);
         // 4.封装脚本
-        String shellOutputPath  = buildScript(outputPath, jarPath);
+        String shellOutputPath = buildScript(outputPath, jarPath);
 
 
         // 5.版本控制
@@ -52,47 +53,51 @@ public abstract class GenerateTemplate {
 
     /**
      * 构建精简版程序
-     * @param outputPath 输出路径
-     * @param jarPath jar包路径
-     * @param shellOutputPath shell输出路径
+     *
+     * @param outputPath       输出路径
+     * @param jarPath          jar包路径
+     * @param shellOutputPath  shell输出路径
      * @param sourceOutputPath 源文件路径
      */
-    protected  void buildDist(String outputPath, String jarPath, String shellOutputPath, String sourceOutputPath) {
+    protected String buildDist(String outputPath, String jarPath, String shellOutputPath, String sourceOutputPath) {
         // 生成精简版本的程序
         String distOutputPath = outputPath + "-dist";
         // jar包文件
         String distJarPath = distOutputPath + File.separator + "target";
         FileUtil.mkdir(distJarPath);
         String jarAbsolutePath = outputPath + File.separator + jarPath;
-        FileUtil.copy(jarAbsolutePath,distJarPath,true);
+        FileUtil.copy(jarAbsolutePath, distJarPath, true);
         // 脚本文件
-        FileUtil.copy(shellOutputPath,distOutputPath,true);
-        FileUtil.copy(shellOutputPath + ".bat",distOutputPath,true);
+        FileUtil.copy(shellOutputPath, distOutputPath, true);
+        FileUtil.copy(shellOutputPath + ".bat", distOutputPath, true);
         // 拷贝.source文件夹
-        FileUtil.copy(sourceOutputPath,distOutputPath,true);
+        FileUtil.copy(sourceOutputPath, distOutputPath, true);
+        return distOutputPath;
     }
 
     /**
      * 版本控制
-     * @param meta 元数据
-     * @param outputPath 输出路径
+     *
+     * @param meta              元数据
+     * @param outputPath        输出路径
      * @param inputResourcePath 资源路径
      */
-    protected  void versionControl(Meta meta, String outputPath, String inputResourcePath) throws IOException, InterruptedException {
-        if(meta.getVersionControl()){
+    protected void versionControl(Meta meta, String outputPath, String inputResourcePath) throws IOException, InterruptedException {
+        if (meta.getVersionControl()) {
             VersionControlGenerator.doGenerate(outputPath);
             String inputFilePath = inputResourcePath + File.separator + "templates/static/.gitignore";
-            FileUtil.copy(inputFilePath, outputPath,true);
+            FileUtil.copy(inputFilePath, outputPath, true);
         }
     }
 
     /**
      * 构建脚本
+     *
      * @param outputPath 输出路径
-     * @param jarPath jar包路径
+     * @param jarPath    jar包路径
      * @return shell输出路径
      */
-    protected  String buildScript(String outputPath, String jarPath) {
+    protected String buildScript(String outputPath, String jarPath) {
         String shellOutputPath = outputPath + File.separator + "generator";
         ScriptGenerator.doGenerate(shellOutputPath, jarPath);
         return shellOutputPath;
@@ -100,11 +105,12 @@ public abstract class GenerateTemplate {
 
     /**
      * 构建jar包
+     *
      * @param outputPath 输出路径
-     * @param meta 元数据
+     * @param meta       元数据
      * @return jar包路径
      */
-    protected  String buildJar(String outputPath, Meta meta) throws IOException, InterruptedException {
+    protected String buildJar(String outputPath, Meta meta) throws IOException, InterruptedException {
         JarGenerator.doGenerate(outputPath);
         String jarName = String.format("%s-%s-jar-with-dependencies.jar", meta.getName(), meta.getVersion());
         return "target/" + jarName;
@@ -112,11 +118,12 @@ public abstract class GenerateTemplate {
 
     /**
      * 代码生成
-     * @param meta 元数据
-     * @param outputPath 输出路径
+     *
+     * @param meta              元数据
+     * @param outputPath        输出路径
      * @param inputResourcePath 资源路径
      */
-    protected  void generateCode(Meta meta, String outputPath, String inputResourcePath) throws IOException, TemplateException {
+    protected void generateCode(Meta meta, String outputPath, String inputResourcePath) throws IOException, TemplateException {
         // Java 包基础路径
         String basePackage = meta.getBasePackage();
         String outputPathPackage = StrUtil.join("/", StrUtil.split(basePackage, "."));
@@ -204,16 +211,29 @@ public abstract class GenerateTemplate {
 
     /**
      * 将源文件拷贝到输出目录
-     * @param meta meta
+     *
+     * @param meta       meta
      * @param outputPath 输出目录
      * @return sourceOutputPath
      */
-    protected  String copySource(Meta meta, String outputPath) {
+    protected String copySource(Meta meta, String outputPath) {
         // 1. 将源文件拷贝到输出目录
         String sourceRootPath = meta.getFileConfig().getSourceRootPath();
         String sourceOutputPath = outputPath + File.separator + ".source";
-        FileUtil.copy(sourceRootPath, sourceOutputPath,false);
+        FileUtil.copy(sourceRootPath, sourceOutputPath, false);
         return sourceOutputPath;
+    }
+
+    /**
+     * 制作压缩包
+     *
+     * @param outputPath 输出目录
+     * @return 压缩包路径
+     */
+    protected String buildZip(String outputPath) {
+        String zipPath = outputPath + ".zip";
+        ZipUtil.zip(outputPath, zipPath);
+        return zipPath;
     }
 
 
