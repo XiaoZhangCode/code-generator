@@ -1,6 +1,7 @@
 import FileUploader from '@/components/FileUploader';
 import PictureUploader from '@/components/PictureUploader';
 import { COS_HOST } from '@/constants';
+import ModelConfigForm from '@/pages/Generator/Add/components/ModelConfigForm';
 import {
   addGeneratorUsingPost,
   editGeneratorUsingPost,
@@ -158,7 +159,7 @@ const GeneratorAddPage: React.FC = () => {
             {/* todo 待补充 */}
           </StepsForm.StepForm>
           <StepsForm.StepForm name="modelConfig" title="模型配置">
-            {/* todo 待补充 */}
+            <ModelConfigForm formRef={formRef} oldData={oldData} />
           </StepsForm.StepForm>
           <StepsForm.StepForm name="dist" title="生成器文件">
             <ProFormItem label="产物包" name="distPath">

@@ -2,6 +2,7 @@ package com.azhang.web.meta;
 
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -69,6 +70,7 @@ public class Meta {
 
         @NoArgsConstructor
         @Data
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class ModelInfo implements Serializable {
             private String fieldName;
             private String type;
@@ -82,6 +84,7 @@ public class Meta {
 
             // 中间参数
             // 该分组下所有参数拼接字符串
+            @JsonInclude(JsonInclude.Include.NON_NULL)
             private String allArgsStr;
         }
     }

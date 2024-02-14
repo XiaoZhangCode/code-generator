@@ -100,11 +100,26 @@ const GeneratorDetailPage: React.FC = () => {
     </Link>
   );
 
+  /**
+   * 立即使用按钮
+   */
+  const useButton = () => {
+    if (currentUser) {
+      return (
+        <Link to={`/generator/use/${data.id}`}>
+          <Button type="primary">立即使用</Button>
+        </Link>
+      );
+    } else {
+      return <p>登录后即可使用</p>;
+    }
+  };
+
   return (
     <PageContainer title={<></>} loading={loading}>
       <Card>
         <Row justify="space-between" gutter={[32, 32]}>
-          <Col flex="auto">
+          <Col flex="62%">
             <Space size="large" align="center">
               <Typography.Title level={4}>{data.name}</Typography.Title>
               {tagListView(data.tags)}
@@ -118,7 +133,7 @@ const GeneratorDetailPage: React.FC = () => {
             <Typography.Paragraph type="secondary">作者：{data.author}</Typography.Paragraph>
             <div style={{ marginBottom: 24 }} />
             <Space size="middle">
-              <Button type="primary">立即使用</Button>
+              {useButton()}
               {downloadButton}
               {editButton}
             </Space>

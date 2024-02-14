@@ -14,7 +14,6 @@ const FileConfig: React.FC<Props> = (props) => {
   const { data } = props;
 
   const fileConfig = data?.fileConfig;
-  console.log(fileConfig);
   if (!fileConfig) {
     return <></>;
   }
@@ -56,22 +55,22 @@ const FileConfig: React.FC<Props> = (props) => {
               {
                 key: 'groupKey',
                 label: '分组key',
-                children: <p>{file.groupKey}</p>,
+                children: <div>{file.groupKey}</div>,
               },
               {
                 key: 'groupName',
                 label: '分组名',
-                children: <p>{file.groupName}</p>,
+                children: <div>{file.groupName}</div>,
               },
               {
                 key: 'condition',
                 label: '条件',
-                children: <p>{file.condition}</p>,
+                children: <div>{file.condition}</div>,
               },
               {
                 key: 'files',
                 label: '组内文件',
-                children: <p>{fileListView(file.files)}</p>,
+                children: <div>{fileListView(file.files)}</div>,
               },
             ];
 
@@ -84,35 +83,35 @@ const FileConfig: React.FC<Props> = (props) => {
             {
               key: 'inputPath',
               label: '输入路径',
-              children: <p>{file.inputPath}</p>,
+              children: <div>{file.inputPath}</div>,
             },
             {
               key: 'outputPath',
               label: '输出路径',
-              children: <p>{file.outputPath}</p>,
+              children: <div>{file.outputPath}</div>,
             },
             {
               key: 'type',
               label: '文件类别',
-              children: <p>{file.type}</p>,
+              children: <div>{file.type}</div>,
             },
             {
               key: 'generateType',
               label: '文件生成类别',
-              children: <p>{file.generateType}</p>,
+              children: <div>{file.generateType}</div>,
             },
             {
               key: 'condition',
               label: '条件',
-              children: <p>{file.condition}</p>,
+              children: <div>{file.condition}</div>,
             },
           ];
 
           return (
-            <>
+            <div key={index}>
               <Descriptions column={2} key={index} items={fileItems} />
-              <Divider />
-            </>
+              <Divider key={`divider_${index}`} />
+            </div>
           );
         })}
       </>

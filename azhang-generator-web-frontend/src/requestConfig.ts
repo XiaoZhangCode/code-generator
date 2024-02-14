@@ -1,6 +1,6 @@
 ﻿import { BACKEND_HOST_LOCAL, BACKEND_HOST_PROD } from '@/constants';
 import type { RequestOptions } from '@@/plugin-request/request';
-import type { RequestConfig } from '@umijs/max';
+import type { RequestConfig } from '@umijs/max'; // 与后端约定的响应数据格式
 
 // 与后端约定的响应数据格式
 interface ResponseStructure {
@@ -42,7 +42,7 @@ export const requestConfig: RequestConfig = {
       }
 
       // 文件下载时 直接返回
-      if (requestPath.includes('download')) {
+      if (data instanceof Blob) {
         return response;
       }
 
