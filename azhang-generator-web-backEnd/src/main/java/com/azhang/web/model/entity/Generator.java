@@ -1,6 +1,6 @@
 package com.azhang.web.model.entity;
 
-import com.azhang.web.meta.Meta;
+import com.azhang.maker.meta.Meta;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
@@ -77,7 +77,7 @@ public class Generator implements Serializable {
      * 文件配置（json字符串）
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Meta.FileConfig fileConfig;
+    private Meta.FileConfigDTO fileConfig;
 
     /**
      * 模型配置（json字符串）

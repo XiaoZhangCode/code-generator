@@ -1,10 +1,12 @@
 package com.azhang.web.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.ZipUtil;
+import cn.hutool.core.util.*;
 import cn.hutool.json.JSONUtil;
+import com.azhang.maker.generator.ZipGenerator;
+import com.azhang.maker.generator.main.GenerateTemplate;
+import com.azhang.maker.meta.Meta;
+import com.azhang.maker.meta.MetaValidator;
 import com.azhang.web.annotation.AuthCheck;
 import com.azhang.web.common.BaseResponse;
 import com.azhang.web.common.DeleteRequest;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
@@ -259,7 +262,7 @@ public class GeneratorController {
         String projectPath = System.getProperty("user.dir");
         String tempPath = String.format("%s/.temp/use/%s", projectPath, generator.getId());
         // 下载的的制作工具的产物包的名称
-        String zipName = FileUtil.normalize(tempPath +File.separator +generator.getDistPath().substring(generator.getDistPath().lastIndexOf("/") + 1)) ;
+        String zipName = FileUtil.normalize(tempPath + File.separator + generator.getDistPath().substring(generator.getDistPath().lastIndexOf("/") + 1));
 
         if (!FileUtil.exist(zipName)) {
             FileUtil.touch(zipName);
@@ -291,13 +294,14 @@ public class GeneratorController {
         try {
             Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
             Files.setPosixFilePermissions(scriptFile.toPath(), permissions);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // 构造命令
         File scriptDir = scriptFile.getParentFile();
         String scriptFileAbsolutePath = FileUtil.normalize(scriptFile.getAbsolutePath());
 
-        String[] commands = new String[]{scriptFileAbsolutePath,"json-generate","--file=" + dataModelPath};
+        String[] commands = new String[]{scriptFileAbsolutePath, "json-generate", "--file=" + dataModelPath};
         ProcessBuilder processBuilder = new ProcessBuilder(commands);
         processBuilder.directory(scriptDir);
         // 执行脚本命令
@@ -332,6 +336,81 @@ public class GeneratorController {
         // 6. 清除下载的资源 防止磁盘满溢
         CompletableFuture.runAsync(() -> {
             FileUtil.del(tempPath);
+        });
+    }
+
+    /**
+     * 制作代码生成器
+     *
+     * @param generatorMakeRequest 请求参数
+     * @param request              请求对象上下文
+     * @param response             响应对象上下文
+     */
+    @PostMapping("/make")
+    public void makeGenerator(@RequestBody GeneratorMakeRequest generatorMakeRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 1）输入参数
+        String zipFilePath = generatorMakeRequest.getZipFilePath();
+        Meta meta = generatorMakeRequest.getMeta();
+
+        // 需要登录
+        User loginUser = userService.getLoginUser(request);
+
+        // 2）创建独立工作空间，下载压缩包到本地
+        if (StrUtil.isBlank(zipFilePath)) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "压缩包不存在");
+        }
+
+        // 工作空间
+        String projectPath = System.getProperty("user.dir");
+        // 随机 id
+        String id = IdUtil.getSnowflakeNextId() + RandomUtil.randomString(6);
+        String tempDirPath = String.format("%s/.temp/make/%s", projectPath, id);
+        String localZipFilePath = tempDirPath + "/project.zip";
+
+        // 新建文件
+        if (!FileUtil.exist(localZipFilePath)) {
+            FileUtil.touch(localZipFilePath);
+        }
+
+        try {
+            cosManager.download(zipFilePath, localZipFilePath);
+        } catch (InterruptedException e) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "压缩包下载失败");
+        }
+
+        // 3）解压，得到项目模板文件
+        File unzipDistDir = ZipUtil.unzip(localZipFilePath);
+
+        // 4）构造 meta 对象和输出路径
+        String sourceRootPath = unzipDistDir.getAbsolutePath();
+        meta.getFileConfig().setSourceRootPath(sourceRootPath);
+        MetaValidator.doValidAndFill(meta);
+        String outputPath = String.format("%s/generated/%s", tempDirPath, meta.getName());
+
+        // 5）调用 maker 方法制作生成器
+        GenerateTemplate generateTemplate = new ZipGenerator();
+        try {
+            generateTemplate.doGenerate(meta, outputPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "制作失败");
+        }
+
+        // 6）下载压缩的产物包文件
+        String suffix = "-dist.zip";
+        String zipFileName = meta.getName() + suffix;
+        String distZipFilePath = outputPath + suffix;
+
+        // 下载文件
+        // 设置响应头
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName);
+        // 写入响应
+        Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
+
+        // 7）清理文件
+        CompletableFuture.runAsync(() -> {
+            FileUtil.del(tempDirPath);
         });
     }
 

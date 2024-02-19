@@ -1,6 +1,6 @@
 package com.azhang.web.model.dto.generator;
 
-import com.azhang.web.meta.Meta;
+import com.azhang.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -67,7 +67,7 @@ public class GeneratorEditRequest implements Serializable {
     /**
      * 文件配置（json字符串）
      */
-    private Meta.FileConfig fileConfig;
+    private Meta.FileConfigDTO fileConfig;
 
     /**
      * 模型配置（json字符串）

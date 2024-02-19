@@ -122,6 +122,17 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>1.5.5.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.azhang</groupId>
+            <artifactId>azhang-generator-maker</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.32</version>
+        </dependency>
     </dependencies>
 
     <build>

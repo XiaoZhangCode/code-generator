@@ -27,15 +27,19 @@ public abstract class GenerateTemplate {
         if (!FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
-        // 读取resource目录
-        ClassPathResource resource = new ClassPathResource("");
-        String inputResourcePath = resource.getAbsolutePath();
+        doGenerate(meta,outputPath);
+    }
+
+    public void doGenerate(Meta meta, String outputPath) throws TemplateException, IOException, InterruptedException {
+        if (!FileUtil.exist(outputPath)) {
+            FileUtil.mkdir(outputPath);
+        }
 
         // 1. 拷贝原始的源文件
         String sourceOutputPath = copySource(meta, outputPath);
 
         // 2.代码生成
-        generateCode(meta, outputPath, inputResourcePath);
+        generateCode(meta, outputPath);
 
 
         // 3.构建jar包
@@ -45,7 +49,7 @@ public abstract class GenerateTemplate {
 
 
         // 5.版本控制
-        versionControl(meta, outputPath, inputResourcePath);
+        versionControl(meta, outputPath);
 
         // 6.生成精简版程序
         buildDist(outputPath, jarPath, shellOutputPath, sourceOutputPath);
@@ -80,9 +84,10 @@ public abstract class GenerateTemplate {
      *
      * @param meta              元数据
      * @param outputPath        输出路径
-     * @param inputResourcePath 资源路径
      */
-    protected void versionControl(Meta meta, String outputPath, String inputResourcePath) throws IOException, InterruptedException {
+    protected void versionControl(Meta meta, String outputPath ) throws IOException, InterruptedException {
+        // 读取resource目录
+        String inputResourcePath = "";
         if (meta.getVersionControl()) {
             VersionControlGenerator.doGenerate(outputPath);
             String inputFilePath = inputResourcePath + File.separator + "templates/static/.gitignore";
@@ -121,9 +126,10 @@ public abstract class GenerateTemplate {
      *
      * @param meta              元数据
      * @param outputPath        输出路径
-     * @param inputResourcePath 资源路径
      */
-    protected void generateCode(Meta meta, String outputPath, String inputResourcePath) throws IOException, TemplateException {
+    protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
+        // 读取resource目录
+        String inputResourcePath = "";
         // Java 包基础路径
         String basePackage = meta.getBasePackage();
         String outputPathPackage = StrUtil.join("/", StrUtil.split(basePackage, "."));

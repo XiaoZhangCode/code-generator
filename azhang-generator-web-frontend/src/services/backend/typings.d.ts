@@ -80,7 +80,7 @@ declare namespace API {
     id?: number;
   };
 
-  type FileConfig = {
+  type FileConfigDTO = {
     files?: FileInfoDTO[];
     inputRootPath?: string;
     outputRootPath?: string;
@@ -106,7 +106,7 @@ declare namespace API {
     description?: string;
     distPath?: string;
     favourNum?: number;
-    fileConfig?: FileConfig;
+    fileConfig?: FileConfigDTO;
     forcedInteractiveSwitch?: boolean;
     id?: number;
     isDelete?: number;
@@ -127,7 +127,7 @@ declare namespace API {
     basePackage?: string;
     description?: string;
     distPath?: string;
-    fileConfig?: FileConfig;
+    fileConfig?: FileConfigDTO;
     forcedInteractiveSwitch?: boolean;
     modelConfig?: ModelConfig;
     name?: string;
@@ -142,7 +142,7 @@ declare namespace API {
     basePackage?: string;
     description?: string;
     distPath?: string;
-    fileConfig?: FileConfig;
+    fileConfig?: FileConfigDTO;
     forcedInteractiveSwitch?: boolean;
     id?: number;
     modelConfig?: ModelConfig;
@@ -164,6 +164,11 @@ declare namespace API {
     sortField?: string;
     sortOrder?: string;
     userId?: number;
+  };
+
+  type GeneratorMakeRequest = {
+    meta?: Meta;
+    zipFilePath?: string;
   };
 
   type GeneratorQueryRequest = {
@@ -189,7 +194,7 @@ declare namespace API {
     basePackage?: string;
     description?: string;
     distPath?: string;
-    fileConfig?: FileConfig;
+    fileConfig?: FileConfigDTO;
     forcedInteractiveSwitch?: boolean;
     id?: number;
     modelConfig?: ModelConfig;
@@ -213,7 +218,7 @@ declare namespace API {
     description?: string;
     distPath?: string;
     favourNum?: number;
-    fileConfig?: FileConfig;
+    fileConfig?: FileConfigDTO;
     forcedInteractiveSwitch?: boolean;
     hasFavour?: boolean;
     hasThumb?: boolean;
@@ -253,6 +258,19 @@ declare namespace API {
     userName?: string;
     userProfile?: string;
     userRole?: string;
+  };
+
+  type Meta = {
+    author?: string;
+    basePackage?: string;
+    createTime?: string;
+    description?: string;
+    fileConfig?: FileConfigDTO;
+    forcedInteractiveSwitch?: boolean;
+    modelConfig?: ModelConfig;
+    name?: string;
+    version?: string;
+    versionControl?: boolean;
   };
 
   type ModelConfig = {

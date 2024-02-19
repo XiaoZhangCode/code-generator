@@ -15,7 +15,7 @@ public class ZipGenerator extends GenerateTemplate {
     }
 
     @Override
-    protected void versionControl(Meta meta, String outputPath, String inputResourcePath) throws IOException, InterruptedException {
+    protected void versionControl(Meta meta, String outputPath) throws IOException, InterruptedException {
         System.out.println("重写子类 不生成git版本控制文件 和 .gitignore 文件啦");
     }
 

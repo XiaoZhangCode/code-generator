@@ -1,6 +1,6 @@
 package com.azhang.web.model.vo;
 
-import com.azhang.web.meta.Meta;
+import com.azhang.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -83,7 +83,7 @@ public class GeneratorVO implements Serializable {
     /**
      * 文件配置（json字符串）
      */
-    private Meta.FileConfig fileConfig;
+    private Meta.FileConfigDTO fileConfig;
 
     /**
      * 模型配置（json字符串）
