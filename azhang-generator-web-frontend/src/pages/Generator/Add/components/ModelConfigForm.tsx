@@ -8,6 +8,7 @@ interface Props {
 }
 
 const ModelConfigForm: React.FC<Props> = (props) => {
+  const { formRef, oldData } = props;
   const singleFieldFormView = (
     field: FormListFieldData,
     remove?: (index: number | number[]) => void,
@@ -45,7 +46,6 @@ const ModelConfigForm: React.FC<Props> = (props) => {
       )}
     </Space>
   );
-  const { formRef, oldData } = props;
   return (
     <Form.List name={['modelConfig', 'models']}>
       {(fields, { add, remove }) => (

@@ -128,7 +128,6 @@ const GeneratorAddPage: React.FC = () => {
       // @ts-ignore
       values.distPath = values.distPath[0].response;
     }
-
     if (id) {
       await doUpdate({
         // @ts-ignore
