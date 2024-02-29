@@ -267,7 +267,7 @@ public class GeneratorController {
         String tempPath = String.format("%s/.temp/use/%s", projectPath, generator.getId());
         // 下载的的制作工具的产物包的名称
         String zipName = FileUtil.normalize(tempPath + File.separator + generator.getDistPath().substring(generator.getDistPath().lastIndexOf("/") + 1));
-
+        log.info("文件zip：" + zipName);
         if (!FileUtil.exist(zipName)) {
             FileUtil.touch(zipName);
         }
@@ -289,11 +289,24 @@ public class GeneratorController {
 
 
         // 获取脚本文件
-        File scriptFile = FileUtil.loopFiles(unzipDistDir, 2,
-                        file -> file.isFile() && "generator.bat".equals(file.getName()))
-                .stream()
-                .findFirst()
-                .orElseThrow(RuntimeException::new);
+        File scriptFile;
+
+        // 获取当前操作系统
+        if (System.getProperty("os.name").contains("Windows")) {
+            scriptFile = FileUtil.loopFiles(unzipDistDir, 2,
+                            file -> file.isFile() && "generator.bat".equals(file.getName()))
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(RuntimeException::new);
+        } else {
+            scriptFile = FileUtil.loopFiles(unzipDistDir, 2,
+                            file -> file.isFile() && "generator".equals(file.getName()))
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(RuntimeException::new);
+        }
+
+
         // 添加可执行权限
         try {
             Set<PosixFilePermission> permissions = PosixFilePermissions.fromString("rwxrwxrwx");
@@ -329,8 +342,9 @@ public class GeneratorController {
         }
         // 5. 后端将代码返回给用户下载
         // 压缩得到的生成结果
-        String generatedPath = scriptDir.getAbsolutePath() + "/generated";
-        String resultPath = tempPath + "/result.zip";
+        String generatedPath = FileUtil.normalize(scriptDir.getAbsolutePath() + "/generated");
+        log.info("压缩得到的生成结果路径：" + generatedPath);
+        String resultPath = FileUtil.normalize(tempPath + "/result.zip");
         File resultFile = ZipUtil.zip(generatedPath, resultPath);
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
@@ -525,7 +539,7 @@ public class GeneratorController {
     /**
      * 获取缓存文件路径
      *
-     * @param id 文件 id
+     * @param id       文件 id
      * @param distPath 产物包路径
      * @return 缓存文件路径
      */
@@ -534,8 +548,6 @@ public class GeneratorController {
         String tempDirPath = String.format("%s/.temp/cache/%s", projectPath, id);
         return String.format("%s/%s", tempDirPath, distPath);
     }
-
-
 
 
 }
