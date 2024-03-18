@@ -6,11 +6,13 @@ import * as fileController from './fileController';
 import * as generatorController from './generatorController';
 import * as generatorFavourController from './generatorFavourController';
 import * as generatorThumbController from './generatorThumbController';
+import * as reCaptchaController from './reCaptchaController';
 import * as userController from './userController';
 export default {
   fileController,
   generatorController,
   generatorFavourController,
   generatorThumbController,
+  reCaptchaController,
   userController,
 };

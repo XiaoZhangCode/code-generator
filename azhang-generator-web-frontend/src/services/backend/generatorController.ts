@@ -17,6 +17,21 @@ export async function addGeneratorUsingPost(
   });
 }
 
+/** cacheGenerator GET /api/generator/cache */
+export async function cacheGeneratorUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.cacheGeneratorUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<any>('/api/generator/cache', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** deleteGenerator POST /api/generator/delete */
 export async function deleteGeneratorUsingPost(
   body: API.DeleteRequest,

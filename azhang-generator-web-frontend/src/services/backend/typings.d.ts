@@ -71,6 +71,11 @@ declare namespace API {
     message?: string;
   };
 
+  type cacheGeneratorUsingGETParams = {
+    /** id */
+    id?: number;
+  };
+
   type DeleteRequest = {
     id?: number;
   };
@@ -78,6 +83,10 @@ declare namespace API {
   type downloadGeneratorByIdUsingGETParams = {
     /** id */
     id?: number;
+  };
+
+  type EmailVo = {
+    userEmail?: string;
   };
 
   type FileConfigDTO = {
@@ -394,7 +403,9 @@ declare namespace API {
 
   type UserRegisterRequest = {
     checkPassword?: string;
+    code?: string;
     userAccount?: string;
+    userEmail?: string;
     userPassword?: string;
   };
 
