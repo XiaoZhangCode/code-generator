@@ -62,6 +62,18 @@ public class User implements Serializable {
     private Date updateTime;
 
     /**
+     * 用户状态1 正常 2冻结
+     */
+    private String accountStatus;
+
+    /**
+     * 用户邮箱
+     */
+    private String userEmail;
+
+
+
+    /**
      * 是否删除
      */
     @TableLogic

@@ -1,16 +1,23 @@
 import Footer from '@/components/Footer';
+import { sendVerificationCodeUsingPost } from '@/services/backend/reCaptchaController';
 import { userRegisterUsingPost as userRegister } from '@/services/backend/userController';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, SafetyOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { Helmet, history } from '@umijs/max';
-import { message, Tabs } from 'antd';
+import { Button, message, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'umi';
 import Settings from '../../../../config/defaultSettings';
 
 const Register: React.FC = () => {
   const [type, setType] = useState<string>('account');
+
+  const [email, setEmail] = useState<string>('');
+
+  const [isSending, setIsSending] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
   const containerClassName = useEmotionCss(() => {
     return {
       display: 'flex',
@@ -37,6 +44,39 @@ const Register: React.FC = () => {
     } catch (error: any) {
       const defaultRegisterFailureMessage = `注册失败，${error.message}`;
       message.error(defaultRegisterFailureMessage);
+    }
+  };
+
+  // 倒计时函数
+  const startCountdown = () => {
+    const interval = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown > 1) {
+          return prevCountdown - 1;
+        } else {
+          setIsSending(false);
+          clearInterval(interval);
+          return 0;
+        }
+      });
+    }, 1000);
+    // 组件卸载时清除倒计时
+    return () => clearInterval(interval);
+  };
+
+  const buttonText = isSending ? (countdown ? `${countdown}s 后重发` : '发送中...') : '获取验证码';
+
+  const handleSendCode = async (e: any) => {
+    e.preventDefault();
+    setIsSending(true);
+    try {
+      await sendVerificationCodeUsingPost({ userEmail: email });
+      setCountdown(10);
+      startCountdown();
+      message.success('发送成功');
+    } catch (error: any) {
+      setIsSending(false);
+      message.error(error.message);
     }
   };
 
@@ -100,6 +140,47 @@ const Register: React.FC = () => {
                   },
                 ]}
               />
+              <ProFormText
+                name="userEmail"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <SafetyOutlined />,
+                  onChange: (e) => {
+                    setEmail(e.target.value);
+                  },
+                }}
+                placeholder={'请输入邮箱'}
+                rules={[
+                  {
+                    required: true,
+                    message: '邮箱是必填项！',
+                  },
+                ]}
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <ProFormText
+                  name="code"
+                  fieldProps={{
+                    size: 'large',
+                    prefix: <SafetyOutlined />,
+                  }}
+                  placeholder={'请输入验证码'}
+                  rules={[
+                    {
+                      required: true,
+                      message: '验证码是必填项！',
+                    },
+                  ]}
+                />
+                <Button
+                  type="primary"
+                  style={{ marginLeft: '10px', marginTop: '5px' }}
+                  onClick={isSending ? () => {} : handleSendCode}
+                >
+                  {buttonText}
+                </Button>
+              </div>
+
               <ProFormText.Password
                 name="userPassword"
                 fieldProps={{

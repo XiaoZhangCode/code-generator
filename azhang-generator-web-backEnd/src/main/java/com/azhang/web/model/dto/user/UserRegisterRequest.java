@@ -1,6 +1,8 @@
 package com.azhang.web.model.dto.user;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 
@@ -19,4 +21,10 @@ public class UserRegisterRequest implements Serializable {
     private String userPassword;
 
     private String checkPassword;
+
+    private String userEmail;
+    /**
+     * 验证码
+     */
+    private String code;
 }

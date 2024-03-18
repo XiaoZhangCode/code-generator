@@ -350,7 +350,6 @@ public class GeneratorController {
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=" + resultFile.getName());
         Files.copy(resultFile.toPath(), response.getOutputStream());
-
         // 6. 清除下载的资源 防止磁盘满溢
         CompletableFuture.runAsync(() -> {
             FileUtil.del(tempPath);
