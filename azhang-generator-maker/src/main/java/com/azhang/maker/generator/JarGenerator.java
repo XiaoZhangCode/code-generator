@@ -47,7 +47,9 @@ public class JarGenerator {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        doGenerate("D:\\Program Files\\code\\me\\zhangPro\\azhang-generator\\azhang-generator-maker\\Generated\\acm-template-pro-generator");
+//        doGenerate("D:\\Program Files\\code\\me\\zhangPro\\azhang-generator\\azhang-generator-maker\\Generated\\springboot-init-generator");
+        doGenerate("D:\\Program Files\\code\\me\\zhangPro\\azhang-generator\\azhang-generator-maker");
+
     }
 
 }

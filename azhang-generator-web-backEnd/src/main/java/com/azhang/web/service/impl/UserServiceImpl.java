@@ -2,6 +2,7 @@ package com.azhang.web.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.DesensitizedUtil;
 import cn.hutool.core.util.StrUtil;
 import com.azhang.web.common.ErrorCode;
 import com.azhang.web.common.ResultUtils;
@@ -95,8 +96,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             if (count > 0) {
                 throw new BusinessException(ErrorCode.PARAMS_ERROR, "邮箱重复");
             }
-            // 2. 加密
+            // 2. 密码加密
             String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+            // 邮箱脱敏
+//            String desEmail = DesensitizedUtil.desensitized(userEmail, DesensitizedUtil.DesensitizedType.EMAIL);
             // 3. 插入数据
             User user = new User();
             user.setUserAccount(userAccount);
@@ -135,12 +138,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
-        if(!"1".equals(user.getUserAccount())){
+        if(!"1".equals(user.getAccountStatus())){
             throw new BusinessException(ErrorCode.FORBIDDEN_ERROR, "用户已被禁用");
         }
         // 3. 记录用户的登录态
         request.getSession().setAttribute(USER_LOGIN_STATE, user);
         return this.getLoginUserVO(user);
+    }
+
+    public static void main(String[] args) {
+        String encryptPassword = DigestUtils.md5DigestAsHex((SALT + "azhangCode0306..").getBytes());
+        System.out.println(encryptPassword);
     }
 
 
