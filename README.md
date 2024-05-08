@@ -20,6 +20,43 @@
 - 分布式任务调度
 - 对象存储：腾讯云COS
 
+项目体验地址：https://azhang.online/ 🔗🌐💻
+
+账号：codeZhang 📋💻
+
+密码：123456789 🔐🔍
 
 
+# 服务器部署之旅总结 🚀
 
+部署笔记: https://www.yuque.com/daixiaoyukanhai/noyhkb/uzxfumy1ueildtyn?singleDoc# 
+
+密码：ncz2
+
+一、准备阶段
+    
+    ● 服务器：选择腾讯云轻量，2核2G，Ubuntu 22.04 LTS。💻
+    
+    ● 工具：Xshell连接，Xftp传输。🔗
+
+二、Docker起飞
+
+    ● 安装：一条命令，Docker起飞！🐳
+
+三、数据库&Redis
+
+    ● MySQL&Redis：配置、启动，数据库双剑合璧！🔪🛡️
+
+四、XXl-Job & 后端
+
+    ● 部署：Navicat传输数据，Docker构建镜像，部署走起！🚀💼
+
+五、Maven & Java
+
+    ● 问题解决：Maven安装，Java版本切换，一切为了项目！🛠️🔧
+
+六、HTTPS & 备案
+
+    ● 网站上线：HTTPS部署，域名备案，网站正式上线！🔒🌐
+
+联系作者 +V  code_xiaozhang
