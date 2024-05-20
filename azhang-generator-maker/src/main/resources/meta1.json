@@ -2,7 +2,7 @@
     "name": "springboot-init-generator",
     "description": "Spring Boot 模板项目生成器",
     "fileConfig": {
-        "sourceRootPath": "D:/Program Files/code/me/zhangPro/azhang-generator/azhang-generator-maker/.temp/2/springboot-init",
+        "sourceRootPath": "../../../azhang-generator-demo-projects/springboot-init",
         "files": [
             {
                 "inputPath": "src/main/resources/application.yml.ftl",
