@@ -47,7 +47,7 @@ public class ReCaptchaController {
         // 生成6位随机数字验证码
         String code = String.valueOf((int) ((Math.random() * 9 + 1) * 100000));
         //放到redis中规定时间内有效
-        stringRedisTemplate.opsForValue().set(userEmail,code,1, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(userEmail,code,3, TimeUnit.MINUTES);
         mailService.sendMail(userEmail,"账号注册验证", "你的验证码如下:"+code+",该验证码主要是用户登录CodeXpress后台管理系统,请尽快输入,你的验证码将于1分钟之后失效啦! 千万不要告诉别人哦！");
         String emailCode2 = stringRedisTemplate.opsForValue().get(userEmail);
         log.warn("{}",emailCode2);

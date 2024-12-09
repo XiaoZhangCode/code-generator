@@ -1,10 +1,19 @@
 # 公共配置文件
 spring:
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: 1687438992@qq.com
+    password: xxx
+    default-encoding: utf-8 #改编码格式
+    protocol: smtp
+    properties:
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
   application:
     name: azhang-generator-web-backEnd
   # 默认 dev 环境
   profiles:
-    active: local
+    active: prod
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -23,12 +32,12 @@ spring:
     password: 123456
   # Redis 配置
   # todo 需替换配置，然后取消注释
-  #  redis:
-  #    database: 1
-  #    host: localhost
-  #    port: 6379
-  #    timeout: 5000
-  #    password: 123456
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+    timeout: 5000
+#      password: 123456
   # Elasticsearch 配置
   # todo 需替换配置，然后取消注释
   #  elasticsearch:

@@ -264,7 +264,7 @@ public class GeneratorController {
         // 3. 下载产物包到本地解压
         // 3.1 定义一个临时的工作空间 用户存放下载的制作工具产物包和最终生成的代码文件
         String projectPath = System.getProperty("user.dir");
-        String tempPath = String.format("%s/.temp/use/%s", projectPath, generator.getId());
+        String tempPath = FileUtil.normalize(String.format("%s/.temp/use/%s", projectPath, generator.getId()));
         // 下载的的制作工具的产物包的名称
         String zipName = FileUtil.normalize(tempPath + File.separator + generator.getDistPath().substring(generator.getDistPath().lastIndexOf("/") + 1));
         log.info("文件zip：" + zipName);
@@ -381,8 +381,11 @@ public class GeneratorController {
         String projectPath = System.getProperty("user.dir");
         // 随机 id
         String id = IdUtil.getSnowflakeNextId() + RandomUtil.randomString(6);
-        String tempDirPath = String.format("%s/.temp/make/%s", projectPath, id);
-        String localZipFilePath = tempDirPath + "/project.zip";
+        String tempDirPath = FileUtil.normalize(String.format("%s/.temp/make/%s", projectPath, id)) ;
+        log.info("projectPath：{}", projectPath);
+        log.info("tempDirPath：{}", tempDirPath);
+        String localZipFilePath = FileUtil.normalize(tempDirPath + "/project.zip"); ;
+        log.info("localZipFilePath：{}", localZipFilePath);
 
         // 新建文件
         if (!FileUtil.exist(localZipFilePath)) {
@@ -399,10 +402,10 @@ public class GeneratorController {
         File unzipDistDir = ZipUtil.unzip(localZipFilePath);
 
         // 4）构造 meta 对象和输出路径
-        String sourceRootPath = unzipDistDir.getAbsolutePath();
+        String sourceRootPath = FileUtil.normalize(unzipDistDir.getAbsolutePath());
         meta.getFileConfig().setSourceRootPath(sourceRootPath);
         MetaValidator.doValidAndFill(meta);
-        String outputPath = String.format("%s/generated/%s", tempDirPath, meta.getName());
+        String outputPath = FileUtil.normalize(String.format("%s/generated/%s", tempDirPath, meta.getName()));
 
         // 5）调用 maker 方法制作生成器
         GenerateTemplate generateTemplate = new ZipGenerator();
@@ -416,7 +419,7 @@ public class GeneratorController {
         // 6）下载压缩的产物包文件
         String suffix = "-dist.zip";
         String zipFileName = meta.getName() + suffix;
-        String distZipFilePath = outputPath + suffix;
+        String distZipFilePath = FileUtil.normalize(outputPath + suffix);
 
         // 下载文件
         // 设置响应头
